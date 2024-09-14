@@ -1,8 +1,10 @@
 #include <cstdio>
 
-void swap(int& a, int& b) { int temp = a; a = b; b = temp; }
+template<typename T>
+void swap(T& a, T& b) { T temp = a; a = b; b = temp; }
 
-void print(int arr[], int n) {
+template<typename T>
+void print(const T arr[], int n) {
     printf(">> ");
     for (int i = 0; i < n; i++)
         printf("%d ", arr[i]);
@@ -10,60 +12,90 @@ void print(int arr[], int n) {
 }
 
 // 기본 버블 정렬
-void bubbleSort(int arr[], int n) {
-    for (int i = 0; i < n - 1; i++)
-        for (int j = 0; j < n - i - 1; j++)
-            if (arr[j] > arr[j+1]) swap(arr[j], arr[j+1]);
-}
+// 인접한 두 원소를 비교하여 큰 값을 뒤로 이동
+// template<typename T>
+// void bubbleSort(T arr[], int n) {
+//     for (int i = n - 1; i > 0; i--)
+//         for (int j = 0; j < i; j++)
+//             if (arr[j] > arr[j+1])
+//                 swap(arr[j], arr[j+1]);
+// }
+
+// template<typename T>
+// void bubbleSort(T arr[], int n) {
+//     for (int i = 0; i < n - 1; i++)
+//         for (int j = 0; j < n - i - 1; j++)
+//             if (arr[j] > arr[j+1])
+//                 swap(arr[j], arr[j+1]);
+// }
+
 
 // 개선 버블 정렬 (Optimized Bubble Sort)
 // 한 번의 반복에서 교환이 발생하지 않았다면 더 이상 반복할 필요가 없다는 점을 이용
-void bubbleSortOptimized(int arr[], int n) {
+template<typename T>
+void bubbleSortOptimized(T arr[], int n) {
     bool isSwapped;
-    for (int i = 0; i < n - 1; i++) {
+    for (int i = n - 1; i > 0; i--) {
         isSwapped = false;
-        for (int j = 0; j < n - i - 1; j++) {
+        for (int j = 0; j < i; j++) {
             if (arr[j] > arr[j + 1]) {
                 swap(arr[j], arr[j + 1]);
                 isSwapped = true;
             }
         }
-        // 한 번의 반복에서 교환이 발생하지 않았다면 이미 정렬된 상태
+        // 교환이 발생하지 않았다면 이미 정렬된 상태
         if (!isSwapped) break;
     }
 }
 
-// 칵테일 정렬 (Cocktail Shaker Sort)
-// 버블 정렬을 양방향으로 진행하여 효율성을 높이는 방법입니다.
-void cocktailSort(int arr[], int n) {
+template<typename T>
+void bubbleSort(T arr[], int n) {
     bool isSwapped = true;
-    int start = 0, end = n - 1;
+    int hi = n - 1;
 
     while (isSwapped) {
         isSwapped = false;
+        for (int i = 0; i < hi; i++) {
+            if (arr[i] > arr[i + 1]) {
+                swap(arr[i], arr[i + 1]);
+                isSwapped = true;
+            }
+        }
+        // 교환이 발생하지 않았다면 이미 정렬된 상태
+        if (!isSwapped) break;
+        hi--;
+    }
+}
 
+
+// 칵테일 정렬 (Cocktail Shaker Sort)
+// 버블 정렬을 양방향으로 진행하여 효율성을 높이는 방법입니다.
+template<typename T>
+void cocktailSort(T arr[], int n) {
+    bool isSwapped = true;
+    int lo = 0, hi = n - 1;
+
+    while (isSwapped) {
         // 왼쪽에서 오른쪽으로 스캔
-        for (int i = start; i < end; i++) {
-            if (arr[i] > arr[i + 1]) {
-                swap(arr[i], arr[i + 1]);
-                isSwapped = true;
-            }
-        }
-        // 만약 교환이 발생하지 않았다면 이미 정렬된 상태
-        if (!isSwapped)
-            break;
-
         isSwapped = false;
-        end--;
-
-        // 오른쪽에서 왼쪽으로 스캔
-        for (int i = end - 1; i >= start; i--) {
+        for (int i = lo; i < hi; i++) {
             if (arr[i] > arr[i + 1]) {
                 swap(arr[i], arr[i + 1]);
                 isSwapped = true;
             }
         }
-        start++;
+        // 교환이 발생하지 않았다면 이미 정렬된 상태
+        if (!isSwapped) break;
+ 
+        // 오른쪽에서 왼쪽으로 스캔
+        isSwapped = false;
+        hi--;
+        for (int i = hi - 1; i >= lo; i--)
+            if (arr[i] > arr[i + 1]) {
+                swap(arr[i], arr[i + 1]);
+                isSwapped = true;
+            }
+        lo++;
     }
 }
 
@@ -73,9 +105,9 @@ int main()
     int n = sizeof(arr)/sizeof(arr[0]);
 
     print(arr, n);
-    // bubbleSort(arr, n);
+    bubbleSort(arr, n);
     // bubbleSortOptimized(arr, n);
-    cocktailSort(arr, n);
+    // cocktailSort(arr, n);
     print(arr, n);
     return 0;
 }
