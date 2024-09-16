@@ -1,9 +1,6 @@
 # Sorting Algorithms
 
-- Comparison Sorting
-- Non Comparion Sorting
-
-## Elementary Sorting Algorithms: $O(N^2)$
+## Elementary Sorting Algorithms
 
 ### Bubble Sort
 
