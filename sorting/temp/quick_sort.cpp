@@ -43,20 +43,48 @@ int findMedianOfFive(int arr[], int lo, int hi) {
 }
 
 // Median-of-Medians 함수
-int medianOfMedians(int arr[], int lo, int hi) {
-    int n = hi - lo + 1;
+// int medianOfMedians(int arr[], int lo, int hi) {
+//     int n = hi - lo + 1;
 
-    // 5개씩 그룹으로 나누고, 각 그룹의 중앙값을 찾아 새로운 배열에 저장
-    int numGroups = (n + 4) / 5;
-    int medians[numGroups];
-    for (int i = 0; i < numGroups; i++) {
-        int groupLow = lo + i * 5;
-        int groupHigh = min(lo + (i + 1) * 5 - 1, hi);
-        medians[i] = findMedianOfFive(arr, groupLow, groupHigh);
+//     // 5개씩 그룹으로 나누고, 각 그룹의 중앙값을 찾아 새로운 배열에 저장
+//     int numGroups = (n + 4) / 5;
+//     int medians[numGroups];
+//     for (int i = 0; i < numGroups; i++) {
+//         int groupLow = lo + i * 5;
+//         int groupHigh = min(lo + (i + 1) * 5 - 1, hi);
+//         medians[i] = findMedianOfFive(arr, groupLow, groupHigh);
+//     }
+//     // 중앙값의 중앙값을 재귀적으로 찾음
+//     return medianOfMedians(medians, 0, numGroups - 1);
+// }
+
+// 중앙값의 중앙값을 구하는 함수
+int medianOfMedians(int arr[], int left, int right) {
+    int n = right - left + 1;
+
+    // 작은 그룹으로 나누기 위한 기준
+    const int groupSize = 5;
+
+    // 작은 그룹의 중앙값을 저장할 임시 배열
+    int* medians = new int[n / groupSize + 1];
+    int medianIndex = 0;
+
+    // 각 그룹의 중앙값 구하기
+    for (int i = left; i <= right; i += groupSize) {
+        int end = min(i + groupSize - 1, right);
+        sort(arr + i, arr + end + 1); // std::sort 사용
+        medians[medianIndex++] = arr[(i + end) / 2];
     }
-    // 중앙값의 중앙값을 재귀적으로 찾음
-    return medianOfMedians(medians, 0, numGroups - 1);
+
+    // 중앙값의 중앙값 구하기 (재귀적으로 호출)
+    int medianOfMedians = select(medians, 0, medianIndex - 1, medianIndex / 2);
+
+    // 동적 할당된 메모리 해제
+    delete[] medians;
+
+    return medianOfMedians;
 }
+
 
 
 // [재귀 호출 범위] 분할된 후, 피벗을 포함한 오른쪽 부분만 재귀적으로 정렬합니다. 왼쪽 부분은 이미 정렬된 상태이기 때문입니다.

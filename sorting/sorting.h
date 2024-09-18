@@ -27,3 +27,17 @@ void selectionSort(int arr[], int n);
 // Heap Selection Sort
 // Quick Selection
 
+
+// Quick sort and its variations
+int lomutoPartition(int arr[], int low, int high);
+int hoarePartition(int arr[], int low, int high);
+void lomutoQuickSortRecur(int arr[], int low, int high);
+void hoareQuickSortRecur(int arr[], int low, int high);
+void lomutoQuickSort(int arr[], int n);
+void hoareQuickSort(int arr[], int n);
+
+int MED3(int arr[], int low, int mid, int high);
+int choosePivotIndex(int arr[], int low, int high);
+
+int findMedianIndex(int arr[], int low, int high);
+int medianOfMedians(int arr[], int low, int high);
