@@ -185,8 +185,8 @@ int lomutoPartition(int arr[], int low, int high) {
 
 int hoarePartition(int arr[], int low, int high) {
     // int pivot = arr[(low + high) / 2];  // default
-    // int pivotIndex = medianOfMedians(arr, low, high);
-    int pivotIndex = MED3(arr, low, (low + high) / 2, high);
+    int pivotIndex = medianOfMedians(arr, low, high);
+    // int pivotIndex = MED3(arr, low, (low + high) / 2, high);
     int pivot = arr[pivotIndex];
     // int pivot = medianOfMedians(arr, low, high); // >> Error!
     // int pivot = arr[MED3(arr, low, (low + high) / 2, high)];
@@ -277,10 +277,11 @@ int findMedianIndex(int arr[], int low, int high) {
             arr[j + 1] = arr[j];
         arr[j + 1] = key;
     }
-    return low + (high - low) / 2;
+    return low + (high - low + 1) / 2;
 }
 
 int medianOfMedians(int arr[], int low, int high) {
+    int medianIndex;
     int n = high - low + 1;
 
     // 배열의 크기가 5보다 작거나 같으면 간단히 정렬하고 중앙값 반환
@@ -294,11 +295,12 @@ int medianOfMedians(int arr[], int low, int high) {
     for (int i = 0; i < groupCnt; ++i) {
         int groupLow = low + i * 5;
         int groupHigh = min(low + (i + 1) * 5 - 1, high);
-        medians[i] = findMedianIndex(arr, groupLow, groupHigh);
+        medianIndex = medianOfMedians(arr, groupLow, groupHigh);
+        medians[i] = arr[medianIndex];
     }
 
     // 중앙값의 중앙값을 재귀적으로 찾음
-    int medianIndex = findMedianIndex(medians, 0, groupCnt - 1);
+    medianIndex = findMedianIndex(medians, 0, groupCnt - 1);
     delete[] medians;
     return medianIndex;
 }

@@ -98,14 +98,33 @@ void test_quick_sort(int option) {
     testSort(hoareQuickSort, arr, n);
 }
 
+int sortArray(int arr[], int low, int high) {
+    // Insertion sort
+    for (int i = low + 1; i <= high; i++) {
+        int key = arr[i];
+        int j;
+        for (j = i - 1; j >= low && arr[j] > key; j--)
+            arr[j + 1] = arr[j];
+        arr[j + 1] = key;
+    }
+    return low + (high - low) / 2;
+}
+
 int main()
 {
-    test_bubble_sort(0);
-    test_insertion_sort(0);
-    test_selection_sort(0);
+    // test_bubble_sort(0);
+    // test_insertion_sort(1);
+    // test_selection_sort(0);
+    // test_quick_sort(1);
 
-    test_quick_sort(1);
+    int arr[] = { 6, 3, 5, 4, 7, 1, 2, 8, 9 };
+    int n = sizeof(arr) / sizeof(arr[0]);
 
+    int pivotIdx = choosePivotIndex(arr, 0, n - 1);
+    // int pivotIdx = MED3(arr, 0, 3, 5);
+
+    // pivotIdx = findMedianIndex(arr, 0, n - 1);
+    pivotIdx = medianOfMedians(arr, 0, n - 1);
 
     return 0;
 }
