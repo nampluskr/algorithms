@@ -33,10 +33,24 @@ void testSort(void (*sortingFunc)(int[], int), int arr[], int n) {
     int hi = n - 1;
 
     initArray(arr, n, maxNumber, seed);
-    printArray(arr, lo, hi);
+    // printArray(arr, lo, hi);
 
     clock_t start = clock();
     sortingFunc(arr, n);
+    int result = (clock() - start) / (CLOCKS_PER_SEC / 1000);
+    printf(">> Time: %d ms\n", result);
+    printArray(arr, lo, hi);
+}
+
+void testSort(void (*sortingFunc)(int[], int, int), int arr[], int low, int high) {
+    int lo = (n > 20)? n - 20: 0;
+    int hi = n - 1;
+
+    initArray(arr, n, maxNumber, seed);
+    // printArray(arr, lo, hi);
+
+    clock_t start = clock();
+    sortingFunc(arr, low, high);
     int result = (clock() - start) / (CLOCKS_PER_SEC / 1000);
     printf(">> Time: %d ms\n", result);
     printArray(arr, lo, hi);
@@ -98,33 +112,40 @@ void test_quick_sort(int option) {
     testSort(hoareQuickSort, arr, n);
 }
 
-int sortArray(int arr[], int low, int high) {
-    // Insertion sort
-    for (int i = low + 1; i <= high; i++) {
-        int key = arr[i];
-        int j;
-        for (j = i - 1; j >= low && arr[j] > key; j--)
-            arr[j + 1] = arr[j];
-        arr[j + 1] = key;
-    }
-    return low + (high - low) / 2;
+void test_merge_sort(int option) {
+    if (option == 0) return;
+
+    printf("\n\n*** [Merge Sort with Top-down Approach]\n");
+    testSort(mergeSort, arr, n);
+
+    printf("\n\n*** [Merge Sort with Bottom-up Approach]\n");
+    testSort(bottomUpMergeSort, arr, n);
+
+    // printf("\n\n*** [Natural Merge Sort]\n");
+    // testSort(naturalMergeSort, arr, n);
+}
+
+void test_radix_sort(int option) {
+    if (option == 0) return;
+
+    printf("\n\n*** [Counting Sort]\n");
+    testSort(countingSort, arr, n, maxNumber);
+
+    printf("\n\n*** [Radix Sort with Base 10]\n");
+    testSort(radixSort10, arr, n);
+
+    printf("\n\n*** [Radix Sort with Base 256]\n");
+    testSort(radixSort256, arr, n);
 }
 
 int main()
 {
     // test_bubble_sort(0);
     // test_insertion_sort(1);
-    // test_selection_sort(0);
+    // test_selection_sort(1);
     // test_quick_sort(1);
-
-    int arr[] = { 6, 3, 5, 4, 7, 1, 2, 8, 9 };
-    int n = sizeof(arr) / sizeof(arr[0]);
-
-    int pivotIdx = choosePivotIndex(arr, 0, n - 1);
-    // int pivotIdx = MED3(arr, 0, 3, 5);
-
-    // pivotIdx = findMedianIndex(arr, 0, n - 1);
-    pivotIdx = medianOfMedians(arr, 0, n - 1);
+    // test_merge_sort(1);
+    test_radix_sort(1);
 
     return 0;
 }

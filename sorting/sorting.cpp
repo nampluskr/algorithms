@@ -170,6 +170,7 @@ void selectionSort(int arr[], int n) {
 /////////////////////////////////////////////////////////////////////
 int lomutoPartition(int arr[], int low, int high) {
     int pivotIndex = MED3(arr, low, (low + high) / 2, high);
+    // int pivotIndex = choosePivotIndex(arr, low, high);
     swap(arr[pivotIndex], arr[high]);
     int pivot = arr[high];
     int i = low - 1;
@@ -184,13 +185,10 @@ int lomutoPartition(int arr[], int low, int high) {
 }
 
 int hoarePartition(int arr[], int low, int high) {
-    // int pivot = arr[(low + high) / 2];  // default
-    int pivotIndex = medianOfMedians(arr, low, high);
-    // int pivotIndex = MED3(arr, low, (low + high) / 2, high);
-    int pivot = arr[pivotIndex];
-    // int pivot = medianOfMedians(arr, low, high); // >> Error!
+    int pivot = arr[(low + high) / 2];  // default
     // int pivot = arr[MED3(arr, low, (low + high) / 2, high)];
     // int pivot = arr[choosePivotIndex(arr, low, high)];
+    // int pivot = medianOfMedians(arr, low, high);
     int i = low - 1, j = high + 1;
 
     while (true) {
@@ -228,7 +226,7 @@ void hoareQuickSortRecur(int arr[], int low, int high) {
     }
 }
 
-void lomutoQuickSort(int arr[], int n) { 
+void lomutoQuickSort(int arr[], int n) {
     lomutoQuickSortRecur(arr, 0, n - 1);
 }
 
@@ -257,7 +255,6 @@ int choosePivotIndex(int arr[], int low, int high) {
     if (n > 7) {
         if (n > 40) {
             int d = n / 8;
-
             low = MED3(arr, low, low + d, low + 2*d);
             mid = MED3(arr, mid - d, mid, mid + d);
             high = MED3(arr, high - 2*d, high - d, high);
@@ -268,7 +265,7 @@ int choosePivotIndex(int arr[], int low, int high) {
 }
 
 
-int findMedianIndex(int arr[], int low, int high) {
+int medianOfFive(int arr[], int low, int high) {
     // Insertion sort
     for (int i = low + 1; i <= high; i++) {
         int key = arr[i];
@@ -277,30 +274,175 @@ int findMedianIndex(int arr[], int low, int high) {
             arr[j + 1] = arr[j];
         arr[j + 1] = key;
     }
-    return low + (high - low + 1) / 2;
+    return arr[(low + high) / 2];
 }
 
 int medianOfMedians(int arr[], int low, int high) {
-    int medianIndex;
     int n = high - low + 1;
 
     // 배열의 크기가 5보다 작거나 같으면 간단히 정렬하고 중앙값 반환
     if (n <= 5)
-        return findMedianIndex(arr, low, high);
+        return medianOfFive(arr, low, high);
 
     // 배열을 5개씩의 그룹으로 나누고, 각 그룹의 중앙값을 찾음
     int groupSize = 5;
     int groupCnt = (n + groupSize - 1) / groupSize;     // 올림
-    int* medians = new int[groupCnt];
-    for (int i = 0; i < groupCnt; ++i) {
-        int groupLow = low + i * 5;
-        int groupHigh = min(low + (i + 1) * 5 - 1, high);
-        medianIndex = medianOfMedians(arr, groupLow, groupHigh);
-        medians[i] = arr[medianIndex];
+    int medians[groupCnt];
+    // int* medians = new int[groupCnt];
+    for (int i = 0; i < groupCnt; i++) {
+        int groupLow = low + i * groupSize;
+        int groupHigh = min(low + (i + 1) * groupSize - 1, high);
+        medians[i] = medianOfFive(arr, groupLow, groupHigh);
     }
 
     // 중앙값의 중앙값을 재귀적으로 찾음
-    medianIndex = findMedianIndex(medians, 0, groupCnt - 1);
-    delete[] medians;
-    return medianIndex;
+    int median = medianOfMedians(medians, 0, groupCnt - 1);
+    // delete[] medians;
+    return median;
+}
+
+/////////////////////////////////////////////////////////////////////
+#if 1   // [Gemini]
+void merge(int arr[], int low, int mid, int high) {
+    int n1 = mid - low + 1;
+    int n2 = high - mid;
+    int arr1[n1], arr2[n2];           // 임시 배열 생성
+
+    // 임시 배열에 값 복사
+    for (int i = 0; i < n1; i++) arr1[i] = arr[low + i];
+    for (int j = 0; j < n2; j++) arr2[j] = arr[mid + 1 + j];
+
+    // 두 개의 정렬된 부분 배열을 합병
+    int i = 0, j = 0, k = low;
+    while (i < n1 && j < n2) {
+        if (arr1[i] <= arr2[j]) arr[k] = arr1[i++];
+        else arr[k] = arr2[j++];
+        k++;
+    }
+
+    // 남은 요소 복사
+    while (i < n1) arr[k++] = arr1[i++];
+    while (j < n2) arr[k++] = arr2[j++];
+}
+
+void mergeSortRecur(int arr[], int low, int high) {
+    if (low < high) {
+        int mid = low + (high - low) / 2;
+        mergeSortRecur(arr, low, mid);
+        mergeSortRecur(arr, mid + 1, high);
+        merge(arr, low, mid, high);
+    }
+}
+
+void bottomUpMergeSort(int arr[], int n) {
+    for (int size = 1; size < n; size = 2 * size) {
+        for (int low = 0; low < n - size; low += 2 * size) {
+            int mid = low + size - 1;
+            int high = min(low + 2 * size - 1, n - 1);
+            merge(arr, low, mid, high);
+        }
+    }
+}
+#else
+void merge(int arr1[], int n1, int arr2[], int n2, int aux[]) {
+    int i = 0, j = 0, k = 0;
+    while (i < n1 && j < n2) {
+        if (arr1[i] <= arr2[j]) aux[k++] = arr1[i++];
+        else aux[k++] = arr2[j++];
+    }
+    while (i < n1) { aux[k++] = arr1[i++]; }
+    while (j < n2) { aux[k++] = arr2[j++]; }
+}
+
+void mergeSortRecur(int arr[], int low, int high) {
+    if (low >= high) return;
+
+    int mid = low + (high - low) / 2;
+    mergeSortRecur(arr, low, mid);
+    mergeSortRecur(arr, mid + 1, high);
+
+    int aux[high - low + 1];
+    merge(arr + low, mid - low + 1, arr + mid + 1, high - mid, aux);
+    for (int i = low, j = 0; i <= high; i++, j++) arr[i] = aux[j];
+}
+
+void bottomUpMergeSort(int arr[], int n) {
+    // int *aux = new int[n]; // 임시 배열 생성
+    int aux[n];
+
+    // 부분 배열의 크기가 1부터 시작하여 배열 전체 크기까지 증가
+    for (int size = 1; size < n; size = size * 2) {
+        // 각 부분 배열을 합병
+        for (int low = 0; low < n - size; low += 2 * size) {
+            int mid = low + size - 1;
+            int high = min(low + 2 * size - 1, n - 1);
+            merge(arr + low, mid - low + 1, arr + mid + 1, high - mid, aux + low);
+            // 합병된 결과를 다시 원래 배열에 복사
+            for (int i = low; i <= high; i++) arr[i] = aux[i];
+        }
+    }
+    // delete[] aux; // 임시 배열 메모리 해제
+}
+#endif
+
+void mergeSort(int arr[], int n) {
+    mergeSortRecur(arr, 0, n - 1);
+}
+
+
+/////////////////////////////////////////////////////////////////////
+void countingSort(int arr[], int n, int maxNumber) {
+    int base = maxNumber;		    // 0 <= arr[j] < base (MAX_NUM)
+    // int* count = new int[base];
+    // int* sorted = new int[n];
+    int count[base];
+    int sorted[n];
+
+    for (int j = 0; j < base; j++) count[j] = 0;				        // initialize
+    for (int j = 0; j < n; j++) count[arr[j]]++;				        // count
+    for (int j = 1; j < base; j++) count[j] += count[j - 1];	        // accumulate
+    for (int j = n - 1; j >= 0; j--) sorted[--count[arr[j]]] = arr[j];  // sort
+    for (int j = 0; j < n; j++) { arr[j] = sorted[j]; }			        // copy
+
+    // delete[] count, sorted;
+}
+
+void radixSort10(int arr[], int n) {
+    int base = 10;			    // 0 <= arr[j] < base^digits (= 10^6)
+    int decimal = 1;
+    // int* count = new int[base];
+    // int* sorted = new int[n];
+    int count[base];
+    int sorted[n];
+
+    // counting sort in base 10 for 10^i digit
+    for (int i = 0; i < 6; i++, decimal *= 10) {
+
+        for (int j = 0; j < base; j++) count[j] = 0;
+        for (int j = 0; j < n; j++) count[arr[j] / decimal % base]++;
+        for (int j = 1; j < base; j++) count[j] += count[j - 1];
+        for (int j = n - 1; j >= 0; j--) sorted[--count[arr[j] / decimal % base]] = arr[j];
+        for (int j = 0; j < n; j++) arr[j] = sorted[j];
+    }
+    // delete[] count, sorted;
+}
+
+void radixSort256(int arr[], int n) {
+    int base = (1 << 8);        // 0 <= arr[j] < 2^32 (= 256^4)
+    int mask = base - 1;
+    // int* count = new int[base];
+    // int* sorted = new int[n];
+    int count[base];
+    int sorted[n];
+
+    // counting sort in base 256 for 256^i digit
+    for (int i = 0; i < 32; i += 8) {
+
+        for (int j = 0; j < base; j++) count[j] = 0;
+        for (int j = 0; j < n; j++) count[(arr[j] >> i) & mask]++;
+        for (int j = 1; j < base; j++) count[j] += count[j - 1];
+        for (int j = n - 1; j >= 0; j--) sorted[--count[(arr[j] >> i) & mask]] = arr[j];
+        for (int j = 0; j < n; j++) arr[j] = sorted[j];
+    }
+    // delete[] count, sorted;
 }

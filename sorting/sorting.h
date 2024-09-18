@@ -29,15 +29,28 @@ void selectionSort(int arr[], int n);
 
 
 // Quick sort and its variations
-int lomutoPartition(int arr[], int low, int high);
-int hoarePartition(int arr[], int low, int high);
-void lomutoQuickSortRecur(int arr[], int low, int high);
-void hoareQuickSortRecur(int arr[], int low, int high);
+// int lomutoPartition(int arr[], int low, int high);
+// int hoarePartition(int arr[], int low, int high);
+// void lomutoQuickSortRecur(int arr[], int low, int high);
+// void hoareQuickSortRecur(int arr[], int low, int high);
 void lomutoQuickSort(int arr[], int n);
 void hoareQuickSort(int arr[], int n);
 
 int MED3(int arr[], int low, int mid, int high);
 int choosePivotIndex(int arr[], int low, int high);
 
-int findMedianIndex(int arr[], int low, int high);
+// int medianOfFive(int arr[], int low, int high);
 int medianOfMedians(int arr[], int low, int high);
+
+// Merge sort and its variations
+// void merge(int arr[], int low, int mid, int high);
+// void mergeSortRecur(int arr[], int low, int high);
+void mergeSort(int arr[], int n);   // Top-down
+void bottomUpMergeSort(int arr[], int n);
+
+// void naturalMergeSort(int arr[], int n);
+
+// Linear Sorting Algorithms
+void countingSort(int arr[], int n, int maxNumber);
+void radixSort10(int arr[], int n);
+void radixSort256(int arr[], int n);
