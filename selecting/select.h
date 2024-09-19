@@ -8,6 +8,4 @@ int hoareQuickSelect(int arr[], int low, int high, int k);
 int hoareQuickSelectIter(int arr[], int n, int k);
 void hoareQuickSort(int arr[], int low, int high);
 
-void medianSelect(int arr[], int low, int high);
-
-
+int medianSelect(int arr[], int low, int high);
