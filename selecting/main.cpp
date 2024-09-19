@@ -33,8 +33,9 @@ int main()
     // printArray(arr, 0, n - 1);
 
     printArray(arr, 0, n - 1);
-    value = hoareQuickSelectIter(arr, n, k);
-    printf(">> %d-th element: %d\n", k + 1, value);
+    // value = hoareQuickSelectIter(arr, n, k);
+    value = medianSelect(arr, 0, n - 1);
+    printf(">> %d-th element: %d\n", n / 2 + 1, value);
     printArray(arr, 0, n - 1);
 
     return 0;
