@@ -1,4 +1,4 @@
-#include "sorting.h"
+#include "sort.h"
 #include <ctime>
 #include <cstdio>
 
@@ -93,7 +93,6 @@ void test_insertion_sort(int option) {
     printf("\n\n*** [Shell Sort]\n");
     testSort(shellSort, arr, n);
 }
-
 
 void test_selection_sort(int option) {
     if (option == 0) return;
