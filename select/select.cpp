@@ -18,21 +18,21 @@ int lomutoPartition(int arr[], int low, int high) {
 int lomutoQuickSelect(int arr[], int low, int high, int k) {
     if (low >= high) return arr[low];
 
-    int pivotIndex = lomutoPartition(arr, low, high);
-    if (k < pivotIndex) return lomutoQuickSelect(arr, low, pivotIndex - 1, k);
-    else if (pivotIndex < k) return lomutoQuickSelect(arr, pivotIndex + 1, high, k);
-    else return arr[pivotIndex];
+    int pivotIdx = lomutoPartition(arr, low, high);
+    if (k < pivotIdx) return lomutoQuickSelect(arr, low, pivotIdx - 1, k);
+    else if (pivotIdx < k) return lomutoQuickSelect(arr, pivotIdx + 1, high, k);
+    else return arr[pivotIdx];
 }
 
 int lomutoQuickSelectIter(int arr[], int n, int k) {
     if (0 <= k && k < n) {
         int low = 0, high = n - 1;
         while (low <= high) {
-            int pivotIndex = lomutoPartition(arr, low, high);
+            int pivotIdx = lomutoPartition(arr, low, high);
 
-            if (k < pivotIndex) high = pivotIndex - 1;
-            else if (pivotIndex < k) low = pivotIndex + 1;
-            else return arr[pivotIndex];
+            if (k < pivotIdx) high = pivotIdx - 1;
+            else if (pivotIdx < k) low = pivotIdx + 1;
+            else return arr[pivotIdx];
         }
     }
     return -1;
@@ -41,9 +41,9 @@ int lomutoQuickSelectIter(int arr[], int n, int k) {
 void lomutoQuickSort(int arr[], int low, int high) {
     if (low >= high) return;
 
-    int pivotIndex = lomutoPartition(arr, low, high);
-    lomutoQuickSort(arr, low, pivotIndex - 1);
-    lomutoQuickSort(arr, pivotIndex + 1, high);
+    int pivotIdx = lomutoPartition(arr, low, high);
+    lomutoQuickSort(arr, low, pivotIdx - 1);
+    lomutoQuickSort(arr, pivotIdx + 1, high);
 }
 
 int hoarePartition(int arr[], int low, int high) {
@@ -63,21 +63,21 @@ int hoarePartition(int arr[], int low, int high) {
 int hoareQuickSelect(int arr[], int low, int high, int k) {
     if (low >= high) return arr[low];
 
-    int pivotIndex = hoarePartition(arr, low, high);
-    if (k < pivotIndex) return hoareQuickSelect(arr, low, pivotIndex, k);
-    else if (pivotIndex < k) return hoareQuickSelect(arr, pivotIndex + 1, high, k);
-    else return arr[pivotIndex];
+    int pivotIdx = hoarePartition(arr, low, high);
+    if (k < pivotIdx) return hoareQuickSelect(arr, low, pivotIdx, k);
+    else if (pivotIdx < k) return hoareQuickSelect(arr, pivotIdx + 1, high, k);
+    else return arr[pivotIdx];
 }
 
 int hoareQuickSelectIter(int arr[], int n, int k) {
     if (0 <= k && k < n) {
         int low = 0, high = n - 1;
         while (low <= high) {
-            int pivotIndex = hoarePartition(arr, low, high);
+            int pivotIdx = hoarePartition(arr, low, high);
 
-            if (k < pivotIndex) high = pivotIndex;
-            else if (pivotIndex < k) low = pivotIndex + 1;
-            else return arr[pivotIndex];
+            if (k < pivotIdx) high = pivotIdx;
+            else if (pivotIdx < k) low = pivotIdx + 1;
+            else return arr[pivotIdx];
         }
     }
     return -1;
@@ -86,9 +86,9 @@ int hoareQuickSelectIter(int arr[], int n, int k) {
 void hoareQuickSort(int arr[], int low, int high) {
     if (low >= high) return;
 
-    int pivotIndex = hoarePartition(arr, low, high);
-    hoareQuickSort(arr, low, pivotIndex);
-    hoareQuickSort(arr, pivotIndex + 1, high);
+    int pivotIdx = hoarePartition(arr, low, high);
+    hoareQuickSort(arr, low, pivotIdx);
+    hoareQuickSort(arr, pivotIdx + 1, high);
 }
 
 int medianSelect(int arr[], int low, int high) {
@@ -96,11 +96,11 @@ int medianSelect(int arr[], int low, int high) {
 
     int mid = low + (high - low) / 2;
     while (low <= high) {
-        int pivotIndex = lomutoPartition(arr, low, high);
+        int pivotIdx = lomutoPartition(arr, low, high);
 
-        if (mid < pivotIndex) high = pivotIndex - 1;
-        else if (pivotIndex < mid) low = pivotIndex + 1;
-        else return arr[pivotIndex];
+        if (mid < pivotIdx) high = pivotIdx - 1;
+        else if (pivotIdx < mid) low = pivotIdx + 1;
+        else return arr[pivotIdx];
     }
     return -1;
 }
