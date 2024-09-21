@@ -37,7 +37,12 @@ int main()
     int low = 0, high = n - 1;
     initArray(arr, n, maxNumber, seed);
     printArray(arr, low, high);
-    testSort(bubbleSort, arr, low, high);
+    
+    // testSort(bubbleSort, arr, low, high);
+    testSort(selectionSort, arr, low, high);
+    // testSort(insertionSort, arr, low, high);
+    // testSort(shellSort, arr, low, high);
+
     printArray(arr, low, high);
 
     return 0;

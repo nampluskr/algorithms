@@ -17,11 +17,42 @@ void bubbleSort(int arr[], int low, int high) {
     }
 }
 
+void insertionSort(int arr[], int low, int high) {
+        for (int i = low + 1; i <= high; i++) {
+        int key = arr[i];
+        int j;
+        for (j = i - 1; j >= low && arr[j] > key; j--)
+            arr[j + 1] = arr[j];
+        arr[j + 1] = key;
+    }
+}
 
+void selectionSort(int arr[], int low, int high) {
+    for (int i = low; i < high; i++) {
+        int minIndex = i;
+        for (int j = i + 1; j <= high; j++)
+            if (arr[j] < arr[minIndex])
+                minIndex = j;
+        if (minIndex != i) swap(arr[minIndex], arr[i]);
+    }
+}
 
-void insertionSort(int arr[], int low, int high) {}
-void selectionSort(int arr[], int low, int high) {}
-void sellSort(int arr[], int low, int high) {}
+void shellSort(int arr[], int low, int high) {
+    int gap = 1, n = high - low + 1;
+    while (gap < n / 3) gap = gap * 3 + 1;    // 1, 4, 13, 40, 121, 363, 1093, ...
+
+    while (gap >= 1) {
+        for (int i = gap; i < n; i++) {
+            int temp = arr[i];
+            int j;
+            for (j = i - gap; j >= 0 && arr[j] > temp; j -= gap)
+                arr[j + gap] = arr[j];
+            arr[j + gap] = temp;
+        }
+        gap /= 3;
+    }
+}
+
 void quickSort(int arr[], int low, int high) {}
 void mergeSort(int arr[], int low, int high) {}
 void heapSort(int arr[], int low, int high) {}
