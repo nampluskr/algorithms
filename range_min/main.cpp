@@ -16,7 +16,7 @@ void testRangeSum(T& rng) {
 
     printf("\n====================================\n");
     printArray(arr, 0, n - 1);
-    rng.build(arr);
+    rng.build(arr, n);
     int left = 0, right = n - 1;
     printf(">> min [%d, %d] = %d\n", left, right, rng.query(left, right));
 
@@ -32,7 +32,7 @@ int main()
     int n = 10;
     auto seg = SegmentTree(n);
     auto sqr = SqrtDecomposition(n);
-
+ 
     testRangeSum(seg);
     testRangeSum(sqr);
 

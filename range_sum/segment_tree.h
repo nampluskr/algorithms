@@ -5,11 +5,11 @@ struct SegmentTree {
     int *tree, n;
     int defaultValue = 0;
 
-    SegmentTree(int size) { n = size; tree = new int[4 * n]; }
+    SegmentTree(int max_size) { n = max_size; tree = new int[4 * n]; }
     ~SegmentTree() { delete[] tree; }
 
     int merge(int leftValue, int rightValue) { return leftValue + rightValue; }
-    void build(int arr[]) { build(arr, 1, 0, n - 1); }
+    void build(int arr[], int size) { n = size; build(arr, 1, 0, n - 1); }
     void update(int idx, int value) { update(idx, value, 1, 0, n - 1); }
     int query(int left, int right) { return query(left, right, 1, 0, n - 1); }
 
@@ -22,14 +22,14 @@ struct SegmentTree {
         return tree[node] = merge(leftValue, rightValue);
     }
 
-    int update(int idx, int delta, int node, int start, int end) {
+    int update(int idx, int value, int node, int start, int end) {
         if (idx < start || end < idx) return tree[node];
-        if (start == end) return tree[node] += delta;
-        // if (start == end) return tree[node] = value; // update(idx, value, ...)
+        // if (start == end) return tree[node] += delta;
+        if (start == end) return tree[node] = value; // update(idx, value, ...)
 
         int mid = start + (end - start) / 2;
-        int leftValue = update(idx, delta, node * 2, start, mid );
-        int rightValue = update(idx, delta, node * 2 + 1, mid + 1, end);
+        int leftValue = update(idx, value, node * 2, start, mid );
+        int rightValue = update(idx, value, node * 2 + 1, mid + 1, end);
         return tree[node] = merge(leftValue, rightValue);
     }
 

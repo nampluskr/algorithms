@@ -4,20 +4,24 @@
 struct FenwickTree {
     int *tree, *arr, n;
 
-    FenwickTree(int size) { n = size; tree = new int[n + 1]; arr = new int[n]; }
+    FenwickTree(int max_size) { 
+        n = max_size; 
+        tree = new int[n + 1]; arr = new int[n];
+    }
     ~FenwickTree() { delete[] tree; delete[] arr; }
 
-    void build(int arr[]) {
+    void build(int arr[], int size) {
+        n = size;
         for (int i = 0; i < n; i++) update(i, arr[i]);
     }
-    void update(int idx, int delta) {
-        // int delta = value - arr[idx];    // update(idx, value)
+    void update(int idx, int value) {
+        int delta = value - arr[idx];    // update(idx, value)
+        arr[idx] += delta;
         idx++;
         while (idx < n + 1) {
             tree[idx] += delta;
             idx += idx & -idx;  // 최하위 bit 더함
         }
-        arr[idx] += delta;
     }
     int prefixSum(int idx) {
         idx++;

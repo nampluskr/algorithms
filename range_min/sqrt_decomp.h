@@ -7,8 +7,8 @@ struct SqrtDecomposition {
     int *blocks, blockSize, blockCnt;
     int *arr, n;
 
-    SqrtDecomposition(int size) {
-        n = size;
+    SqrtDecomposition(int max_size) {
+        n = max_size;
         blockSize = sqrt(n);
         blockCnt = (n + blockSize - 1) / blockSize; // ceil
         blocks = new int[blockCnt]; arr = new int[n];
@@ -16,7 +16,10 @@ struct SqrtDecomposition {
     ~SqrtDecomposition() { delete[] arr; delete[] blocks; }
 
     inline int min(int a, int b) { return (a < b) ? a : b; }
-    void build(int arr[]) {
+    void build(int arr[], int size) {
+        n = size;
+        blockSize = sqrt(n);
+        blockCnt = (n + blockSize - 1) / blockSize; // ceil
         for (int i = 0; i < blockCnt; i++) blocks[i] = 1e6;
         for (int i = 0; i < n; i++) {
             this->arr[i] = arr[i];

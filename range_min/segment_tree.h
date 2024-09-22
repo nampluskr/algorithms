@@ -5,12 +5,12 @@ struct SegmentTree {
     int *tree, n;
     int defaultValue = 1e6;     // INF
 
-    SegmentTree(int size) { n = size; tree = new int[4 * n]; }
+    SegmentTree(int max_size) { n = max_size; tree = new int[4 * n]; }
     ~SegmentTree() { delete[] tree; }
 
     inline int min(int a, int b) { return (a < b) ? a : b; }
     int merge(int leftValue, int rightValue) { return min(leftValue, rightValue); }
-    void build(int arr[]) { build(arr, 1, 0, n - 1); }
+    void build(int arr[], int size) { n = size; build(arr, 1, 0, n - 1); }
     void update(int idx, int value) { update(idx, value, 1, 0, n - 1); }
     int query(int left, int right) { return query(left, right, 1, 0, n - 1); }
 
