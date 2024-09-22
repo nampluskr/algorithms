@@ -38,8 +38,9 @@ void insertionSort(int arr[], int low, int high) {
 }
 
 void shellSort(int arr[], int low, int high) {
+    // [Knuth] 1, 4, 13, 40, 121, 363, 1093, ...
     int gap = 1, n = high - low + 1;
-    while (gap < n / 3) gap = gap * 3 + 1;    // 1, 4, 13, 40, 121, 363, 1093, ...
+    while (gap < n / 3) gap = gap * 3 + 1;
 
     while (gap >= 1) {
         for (int i = gap; i <= high; i++) {
@@ -52,6 +53,7 @@ void shellSort(int arr[], int low, int high) {
         gap /= 3;
     }
 }
+
 struct pii { int high, low; };
 
 pii lomutoPartition(int arr[], int low, int high) {
@@ -64,7 +66,7 @@ pii lomutoPartition(int arr[], int low, int high) {
             swap(arr[++i], arr[j]);
     }
     swap(arr[++i], arr[high]);
-    return { i - 1, i + 1 };    // default i
+    return { i - 1, i + 1 };    // default: i
 
 }
 
@@ -79,16 +81,16 @@ pii hoarePartition(int arr[], int low, int high) {
         if (i < j) swap(arr[i], arr[j]);
         else break;
     }
-    return { j, j + 1 };    // default j
+    return { j, j + 1 };    // default: j
 }
 
 void quickSort(int arr[], int low, int high) {
-    if (low < high) {
-        // pii pivotIndex = lomutoPartition(arr, low, high);
-        pii pivotIndex = hoarePartition(arr, low, high);
-        quickSort(arr, low, pivotIndex.high);
-        quickSort(arr, pivotIndex.low, high);
-    }
+    if (low == high) return;
+
+    // pii pivotIndex = lomutoPartition(arr, low, high);
+    pii pivotIndex = hoarePartition(arr, low, high);
+    quickSort(arr, low, pivotIndex.high);
+    quickSort(arr, pivotIndex.low, high);
 }
 
 void merge(int arr[], int low, int mid, int high) {
@@ -133,7 +135,7 @@ void countingSort(int arr[], int low, int high) {
 }
 
 void radixSort10(int arr[], int low, int high) {
-    int base = 10;			    // 0 <= arr[j] < base^digits (= 10^6)
+    int base = 10;      // 0 <= arr[j] < base^digits (= 10^6)
     int decimal = 1;
     int count[base];
     int sorted[high - low + 1];
@@ -150,7 +152,7 @@ void radixSort10(int arr[], int low, int high) {
 }
 
 void radixSort256(int arr[], int low, int high) {
-    int base = (1 << 8);        // 0 <= arr[j] < 2^32 (= 256^4)
+    int base = 256;     // 0 <= arr[j] < 2^32 (= 256^4)
     int mask = base - 1;
     int count[base];
     int sorted[high - low + 1];
