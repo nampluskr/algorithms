@@ -2,7 +2,7 @@
 #include <ctime>
 #include "sort2.h"
 
-#define MAX_SIZE    20          // 배열의 크기
+#define MAX_SIZE    15          // 배열의 크기
 
 int arr[MAX_SIZE];
 int n = MAX_SIZE;                // 배열의 원소 개수
@@ -41,7 +41,7 @@ int main()
 
     printArray(arr, 0, n - 1);
 
-    testSort(bubbleSort, arr, low, high);       // -> high
+    // testSort(bubbleSort, arr, low, high);       // OK
     // testSort(selectionSort, arr, low, high);    // OK
     // testSort(insertionSort, arr, low, high);    // OK
     // testSort(shellSort, arr, low, high);        // -> low
@@ -49,7 +49,7 @@ int main()
     // testSort(mergeSort, arr, low, high);        // OK
     // testSort(countingSort, arr, low, high);
     // testSort(radixSort10, arr, low, high);
-    // testSort(radixSort256, arr, low, high);
+    testSort(radixSort256, arr, low, high);
     printArray(arr, 0, n - 1);
 
     initArray(arr, n, maxNumber, seed);

@@ -1,16 +1,14 @@
 #include "sort2.h"
 
 inline void swap(int& a, int& b) { int temp = a; a = b; b = temp; }
-
 inline int min(int a, int b) { return (a < b)? a: b; }
-
 inline int max(int a, int b) { return (a < b)? b: a; }
 
 void bubbleSort(int arr[], int low, int high) {
     bool isSwapped;
-    for (int i = low; i < high ; i++) {
+    for (int i = high; i > low ; i--) {
         isSwapped = false;
-        for (int j = low; j < high - i; j++) {
+        for (int j = low; j < i; j++) {
             if (arr[j] > arr[j + 1])
                 swap(arr[j], arr[j + 1]);
                 isSwapped = true;
@@ -44,10 +42,10 @@ void shellSort(int arr[], int low, int high) {
     while (gap < n / 3) gap = gap * 3 + 1;    // 1, 4, 13, 40, 121, 363, 1093, ...
 
     while (gap >= 1) {
-        for (int i = gap; i < n; i++) {
+        for (int i = gap; i <= high; i++) {
             int temp = arr[i];
             int j;
-            for (j = i - gap; j >= 0 && arr[j] > temp; j -= gap)
+            for (j = i - gap; j >= low && arr[j] > temp; j -= gap)
                 arr[j + gap] = arr[j];
             arr[j + gap] = temp;
         }
