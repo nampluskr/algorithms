@@ -7,7 +7,7 @@
 int arr[MAX_SIZE];
 int n = MAX_SIZE;                // 배열의 원소 개수
 int maxNumber = 100;             // 배열의 원소 중 최대값
-unsigned long long seed = 42;
+unsigned long long seed = 48;
 
 int rand(unsigned long long seed) {
     seed = seed * 25214903917ULL + 11ULL;
@@ -34,16 +34,29 @@ void testSort(void (*sortFunc)(int[], int, int), int arr[], int low, int high) {
 
 int main()
 {
-    int low = 0, high = n - 1;
+    int low = 2, high = n - 3;
     initArray(arr, n, maxNumber, seed);
-    printArray(arr, low, high);
-    
-    // testSort(bubbleSort, arr, low, high);
-    testSort(selectionSort, arr, low, high);
-    // testSort(insertionSort, arr, low, high);
-    // testSort(shellSort, arr, low, high);
+    arr[0] = 99, arr[1] = 98;
+    arr[n - 1] = 1, arr[n - 2] = 2;
 
-    printArray(arr, low, high);
+    printArray(arr, 0, n - 1);
+
+    testSort(bubbleSort, arr, low, high);       // -> high
+    // testSort(selectionSort, arr, low, high);    // OK
+    // testSort(insertionSort, arr, low, high);    // OK
+    // testSort(shellSort, arr, low, high);        // -> low
+    // testSort(quickSort, arr, low, high);        // OK
+    // testSort(mergeSort, arr, low, high);        // OK
+    // testSort(countingSort, arr, low, high);
+    // testSort(radixSort10, arr, low, high);
+    // testSort(radixSort256, arr, low, high);
+    printArray(arr, 0, n - 1);
+
+    initArray(arr, n, maxNumber, seed);
+    arr[0] = 99, arr[1] = 98;
+    arr[n - 1] = 1, arr[n - 2] = 2;
+
+    printArray(arr, 0, n - 1);
 
     return 0;
 }
