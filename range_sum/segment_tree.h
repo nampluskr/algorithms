@@ -1,6 +1,6 @@
 #pragma once
 
-// Point Update + Range Sum Query
+// [Mutable] Point Update O(log N) + Range Sum Query O(log N)
 struct SegmentTree {
     int *tree, n;
     int defaultValue = 0;

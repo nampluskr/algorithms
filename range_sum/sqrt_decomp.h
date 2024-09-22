@@ -2,7 +2,7 @@
 
 #include <cmath>
 
-// Point Update + Range Sum Query
+// [Mutable] Point Update O(1) + Range Sum Query O(√N)
 struct SqrtDecomposition {
     int *blocks, blockSize, blockCnt;
     int *arr, n;

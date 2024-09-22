@@ -12,13 +12,22 @@ struct FenwickTree {
 
     void build(int arr[], int size) {
         n = size;
-        for (int i = 0; i < n; i++) update(i, arr[i]);
+        // for (int i = 0; i < n; i++) update(i, arr[i]);  // O(n log n)
+
+        for (int i = 0; i < n; i++) {
+            this->arr[i] = arr[i];
+            tree[i + 1] = arr[i];
+        }
+        for (int i = 1; i <= n; i++) {
+            int idx = i + (i & -i);
+            if (idx <= n) tree[idx] += tree[i];
+        }
     }
     void update(int idx, int value) {
         int delta = value - arr[idx];    // update(idx, value)
         arr[idx] += delta;
         idx++;
-        while (idx < n + 1) {
+        while (idx <= n) {
             tree[idx] += delta;
             idx += idx & -idx;  // 최하위 bit 더함
         }

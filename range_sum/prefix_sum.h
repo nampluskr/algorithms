@@ -1,5 +1,6 @@
 #pragma once
 
+// [Immutable] build O(N) + Range Sum Query O(1)
 struct PrefixSum{
     int *table, *arr, n;
 

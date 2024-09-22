@@ -1,5 +1,6 @@
 #include "segment_tree.h"
 #include "sqrt_decomp.h"
+#include "sparse_table.h"
 #include <cstdio>
 
 void printArray(int arr[], int low, int high) {
@@ -10,7 +11,7 @@ void printArray(int arr[], int low, int high) {
 }
 
 template<typename T>
-void testRangeSum(T& rng) {
+void testRangeMin(T& rng) {
     int arr[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
     int n = sizeof(arr) / sizeof(arr[0]);
 
@@ -32,9 +33,11 @@ int main()
     int n = 10;
     auto seg = SegmentTree(n);
     auto sqr = SqrtDecomposition(n);
+    auto tbl = SparseTable(n);
  
-    testRangeSum(seg);
-    testRangeSum(sqr);
+    testRangeMin(seg);
+    testRangeMin(sqr);
+    testRangeMin(tbl);
 
     return 0;
 }
