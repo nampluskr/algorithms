@@ -17,12 +17,8 @@ struct SortingMethod {
 struct Sorting {
     SortingMethod* method;
 
-    void setSortingMethod(SortingMethod* method) {
-        this->method = method;
-    }
-    void sortArray(int arr[], int low, int high) {
-        method->sort(arr, low, high);
-    }
+    void setSortingMethod(SortingMethod* method) { this->method = method; }
+    void sortArray(int arr[], int low, int high) { method->sort(arr, low, high); }
     void printArray(int arr[], int low, int high) {
         printf(">> ");
         for (int i = low; i < high; i++)
@@ -72,6 +68,7 @@ struct InsertionSort: SortingMethod {
 };
 
 // Interface
+enum PARTITION { LOMUTO, HOARE };
 struct pii { int high, low; };
 
 struct Partition {
@@ -111,13 +108,17 @@ struct HoarePartition: Partition {
 };
 
 struct QuickSort: SortingMethod {
-    Partition* p;
-    QuickSort(Partition* p) { this->p = p; }
+    Partition* selected;
+    QuickSort(PARTITION name) { 
+        if (name == LOMUTO) selected = new LomutoPartition();
+        else if (name == HOARE) selected = new HoarePartition();
+    }
+    ~QuickSort() { delete selected; }
 
     void sort(int arr[], int low, int high) override {
         if (high <= low) return;
 
-        pii pivotIndex = p->partition(arr, low, high);
+        pii pivotIndex = selected->partition(arr, low, high);
         sort(arr, low, pivotIndex.high);
         sort(arr, pivotIndex.low, high);
     }

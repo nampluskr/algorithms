@@ -9,8 +9,8 @@ int main()
     Sorting s;
     s.printArray(arr, 0, n - 1);
 
-    // s.setSortingMethod(new QuickSort(new HoarePartition()));
-    // s.setSortingMethod(new QuickSort(new LomutoPartition()));
+    // s.setSortingMethod(new QuickSort(HOARE));
+    s.setSortingMethod(new QuickSort(LOMUTO));
     // s.setSortingMethod(new MergeSort());
     s.sortArray(arr, 0, n - 1);
     s.printArray(arr, 0, n - 1);
