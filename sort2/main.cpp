@@ -32,31 +32,47 @@ void testSort(void (*sortFunc)(int[], int, int), int arr[], int low, int high) {
     sortFunc(arr, low, high);
 }
 
+void testSort(void (*sortFunc)(int[], int, int, int), int arr[], int low, int high, int threshold) {
+    sortFunc(arr, low, high, threshold);
+}
+
 int main()
 {
     int low = 2, high = n - 3;
     initArray(arr, n, maxValue, seed);
     arr[0] = 99, arr[1] = 98;
     arr[n - 1] = 1, arr[n - 2] = 2;
-
     printArray(arr, 0, n - 1);
 
-    // testSort(bubbleSort, arr, low, high);       // OK
-    // testSort(selectionSort, arr, low, high);    // OK
-    // testSort(insertionSort, arr, low, high);    // OK
-    // testSort(shellSort, arr, low, high);        // -> low
-    // testSort(quickSort, arr, low, high);        // OK
-    // testSort(mergeSort, arr, low, high);        // OK
-    testSort(countingSort, arr, low, high);
+    // 단순 정렬 알고리즘 O(N^2)
+    // testSort(bubbleSort, arr, low, high);
+    // testSort(bubbleSortRecursive, arr, low, high);
+    // testSort(bubbleSortOptimized, arr, low, high);
+    // testSort(cocktailSort, arr, low, high);
+    // testSort(combSort, arr, low, high);
+
+    // testSort(selectionSort, arr, low, high);
+
+    // testSort(insertionSort, arr, low, high);
+    // testSort(binaryInsertionSort, arr, low, high);
+    // testSort(shellSort, arr, low, high);
+    // testSort(shellSortKnuth, arr, low, high);
+
+    // 효율적인 정렬 알고리즘 O(N logN)
+    // testSort(quickSortLomuto, arr, low, high);
+    // testSort(quickSortHoare, arr, low, high);
+    // testSort(quickSort, arr, low, high);
+
+    // testSort(mergeSort, arr, low, high);
+    // testSort(mergeSortBottomUp, arr, low, high);
+    testSort(hybridSort, arr, low, high, 10);
+
+    // testSort(countingSort, arr, low, high);
     // testSort(radixSort10, arr, low, high);
     // testSort(radixSort256, arr, low, high);
-    printArray(arr, 0, n - 1);
-
-    initArray(arr, n, maxValue, seed);
-    arr[0] = 99, arr[1] = 98;
-    arr[n - 1] = 1, arr[n - 2] = 2;
 
     printArray(arr, 0, n - 1);
 
     return 0;
 }
+

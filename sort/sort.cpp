@@ -109,16 +109,16 @@ void hybridSort(int arr[], int n) {
 }
 
 void binaryInsertionSort(int arr[], int n) {
-    int i, key, j, low, hight, mid;
+    int i, key, j, low, high, mid;
     for (i = 1; i < n; i++) {
         key = arr[i];
         low = 0;
-        hight = i - 1;
+        high = i - 1;
 
-        while (low <= hight) {
-            mid = (low + hight) / 2;
+        while (low <= high) {
+            mid = (low + high) / 2;
             if (arr[mid] < key) low = mid + 1;
-            else hight = mid - 1;
+            else high = mid - 1;
         }
         for (j = i - 1; j >= low; j--)
             arr[j + 1] = arr[j];
@@ -268,8 +268,7 @@ int choosePivotIndex(int arr[], int low, int high) {
 int medianOfFive(int arr[], int low, int high) {
     // Insertion sort
     for (int i = low + 1; i <= high; i++) {
-        int key = arr[i];
-        int j;
+        int key = arr[i], j;
         for (j = i - 1; j >= low && arr[j] > key; j--)
             arr[j + 1] = arr[j];
         arr[j + 1] = key;
