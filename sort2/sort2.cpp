@@ -3,6 +3,7 @@
 inline void swap(int& a, int& b) { int temp = a; a = b; b = temp; }
 inline int min(int a, int b) { return (a < b)? a: b; }
 inline int max(int a, int b) { return (a < b)? b: a; }
+inline int ceil(int a, int b) { return (a + b - 1) / b; }
 
 /////////////////////////////////////////////////////////////////////
 // Bubble Sort and Its Variations
@@ -412,32 +413,65 @@ void hybridSort(int arr[], int low, int high, int threshold) {
     }
 }
 
-
-
-
 void heapSort(int arr[], int low, int high) {}
 
+/////////////////////////////////////////////////////////////////////
+// Non-comparision Sorting Algorithms
+
+void bucketSort(int arr[], int low, int high) {
+    // 입력 범위 내의 최댓값과 최솟값 찾기
+    int maxValue = arr[low];
+    int minValue = arr[low];
+    for (int i = low + 1; i <= high; ++i) {
+        maxValue = max(maxValue, arr[i]);
+        minValue = min(minValue, arr[i]);
+    }
+
+    // 2차원 배열로 버킷 생성 (첫번째 인덱스에 개수 저장)
+    int n = high - low + 1;
+    int bucketSize = (maxValue - minValue) / n;
+    int bucketCnt = ceil(maxValue - minValue, bucketSize);
+    int buckets[bucketCnt][n + 1];  // 두번째 인덱스부터 배열 저장
+    for (int i = 0; i < bucketCnt; i++) buckets[i][0] = 0;
+
+    // 각 요소를 해당 버킷에 삽입
+    for (int i = low; i <= high; ++i) {
+        int bucketIdx = (arr[i] - minValue) / bucketSize;
+        buckets[bucketIdx][0]++;    // 첫 번째 요소에 개수 저장
+        buckets[bucketIdx][buckets[bucketIdx][0]] = arr[i];
+    }
+
+    // 각 버킷 내부 정렬 (삽입 정렬)
+    for (int i = 0; i < bucketCnt; ++i)
+        insertionSort(buckets[i], 1, buckets[i][0]);
+
+    // 정렬된 버킷들을 다시 원래 배열에 병합
+    int index = low;
+    for (int i = 0; i < bucketCnt; ++i)
+        for (int j = 1; j <= buckets[i][0]; j++)
+            arr[index++] = buckets[i][j];
+}
+
 void countingSort(int arr[], int low, int high) {
-    int base = 1'000'000;		    // 0 <= arr[j] < base (MAX_NUM)
+    int base = 1'000'000;       // 0 <= arr[j] < base (MAX_NUM)
     int count[base];
     int sorted[high - low + 1];
 
-    for (int j = 0; j < base; j++) count[j] = 0;				        // initialize
-    for (int j = low; j <= high; j++) count[arr[j]]++;				    // count
-    for (int j = 1; j < base; j++) count[j] += count[j - 1];	        // accumulate
+    for (int j = 0; j < base; j++) count[j] = 0;                        // initialize
+    for (int j = low; j <= high; j++) count[arr[j]]++;                  // count
+    for (int j = 1; j < base; j++) count[j] += count[j - 1];            // accumulate
     for (int j = high; j >= low; j--) sorted[--count[arr[j]]] = arr[j]; // sort
     for (int j = low; j <= high; j++) arr[j] = sorted[j - low];         // copy
 }
 
 void radixSort10(int arr[], int low, int high) {
-    int base = 10;      // 0 <= arr[j] < base^digits (= 10^6)
+    int base = 10;              // 0 <= arr[j] < base^digits (= 10^6)
     int decimal = 1;
     int count[base];
     int sorted[high - low + 1];
 
     // counting sort in base 10 for 10^i digit
     for (int i = 0; i < 6; i++, decimal *= 10) {
-
         for (int j = 0; j < base; j++) count[j] = 0;
         for (int j = low; j <= high; j++) count[arr[j] / decimal % base]++;
         for (int j = 1; j < base; j++) count[j] += count[j - 1];
@@ -447,14 +481,13 @@ void radixSort10(int arr[], int low, int high) {
 }
 
 void radixSort256(int arr[], int low, int high) {
-    int base = 256;     // 0 <= arr[j] < 2^32 (= 256^4)
+    int base = 256;             // 0 <= arr[j] < 2^32 (= 256^4)
     int mask = base - 1;
     int count[base];
     int sorted[high - low + 1];
 
     // counting sort in base 256 for 256^i digit
     for (int i = 0; i < 32; i += 8) {
-
         for (int j = 0; j < base; j++) count[j] = 0;
         for (int j = low; j <= high; j++) count[(arr[j] >> i) & mask]++;
         for (int j = 1; j < base; j++) count[j] += count[j - 1];

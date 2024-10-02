@@ -26,6 +26,7 @@ void hybridSort(int arr[], int low, int high, int threshold);
 void heapSort(int arr[], int low, int high);
 
 // Linear Sorting Algorithms
+void bucketSort(int arr[], int low, int high);
 void countingSort(int arr[], int low, int high);
 void radixSort10(int arr[], int low, int high);
 void radixSort256(int arr[], int low, int high);
