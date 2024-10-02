@@ -14,6 +14,8 @@ void binaryInsertionSort(int arr[], int low, int high);
 void shellSort(int arr[], int low, int high);
 void shellSortKnuth(int arr[], int low, int high);
 
+void cycleSort(int arr[], int low, int high);
+
 // Efficient and Fast Sorting Algorithms
 void quickSortLomuto(int arr[], int low, int high);
 void quickSortHoare(int arr[], int low, int high);

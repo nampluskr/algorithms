@@ -195,6 +195,43 @@ void shellSortKnuth(int arr[], int low, int high) {
     }
 }
 
+void cycleSort(int arr[], int low, int high) {
+    int writes = 0;
+
+    // 모든 요소에 대해 사이클 찾기
+    for (int cycleStart = low; cycleStart <= high; cycleStart++) {
+        int item = arr[cycleStart];
+        int pos = cycleStart;
+
+        // 올바른 위치 찾기
+        for (int i = cycleStart + 1; i <= high; i++)
+            if (arr[i] < item)
+                pos++;
+
+        // 이미 제자리에 있는 경우 건너뛰기
+        if (pos == cycleStart)
+            continue;
+
+        // 사이클 교환
+        while (item == arr[pos])
+            pos++;
+        swap(arr[pos], item);
+        writes++;
+
+        // 나머지 사이클 요소 교환
+        while (pos != cycleStart) {
+            pos = cycleStart;
+            for (int i = cycleStart + 1; i <= high; i++)
+                if (arr[i] < item)
+                    pos++;
+            while (item == arr[pos])
+                pos++;
+            swap(arr[pos], item);
+            writes++;
+        }
+    }
+}
+
 /////////////////////////////////////////////////////////////////////
 // Quick Sort and Its Variations
 

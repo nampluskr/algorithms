@@ -58,6 +58,8 @@ int main()
     // testSort(shellSort, arr, low, high);
     // testSort(shellSortKnuth, arr, low, high);
 
+    testSort(cycleSort, arr, low, high);
+
     // 효율적인 정렬 알고리즘 O(N logN)
     // testSort(quickSortLomuto, arr, low, high);
     // testSort(quickSortHoare, arr, low, high);
@@ -68,7 +70,7 @@ int main()
     // testSort(hybridSort, arr, low, high, 10);
 
     // 특수 정렬 알고리즘 O(N)
-    testSort(bucketSort, arr, low, high);
+    // testSort(bucketSort, arr, low, high);
     // testSort(countingSort, arr, low, high);
     // testSort(radixSort10, arr, low, high);
     // testSort(radixSort256, arr, low, high);
