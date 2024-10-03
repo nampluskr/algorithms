@@ -32,8 +32,8 @@ int main()
     // testSelect(quickSelectHoare, arr, low, high);
     // testSelect(quickSelectHoareIter, arr, low, high);
 
-    testSelect(heapSelect, arr, low, high);
-
+    // testSelect(heapSelect, arr, low, high);
+    testSelect(introSelect, arr, low, high);
 
     // int res = medianSelect(arr, low, high);
     // printf(">> %d-th element: %d\n", (high - low + 1) / 2 + 1, res);

@@ -248,52 +248,52 @@ void cycleSort(int arr[], int low, int high) {
 /////////////////////////////////////////////////////////////////////
 // Quick Sort and Its Variations
 
-struct pii { int high, low; };
+// struct pii { int high, low; };
 
-pii lomutoPartition(int arr[], int low, int high) {
-    swap(arr[(low + high) / 2], arr[high]);
-    int pivot = arr[high];
-    int i = low - 1;
+// pii lomutoPartition(int arr[], int low, int high) {
+//     swap(arr[(low + high) / 2], arr[high]);
+//     int pivot = arr[high];
+//     int i = low - 1;
 
-    for (int j = low; j < high; j++) {
-        if (arr[j] <= pivot)
-            swap(arr[++i], arr[j]);
-    }
-    swap(arr[++i], arr[high]);
-    return { i - 1, i + 1 };    // default: i
-}
+//     for (int j = low; j < high; j++) {
+//         if (arr[j] <= pivot)
+//             swap(arr[++i], arr[j]);
+//     }
+//     swap(arr[++i], arr[high]);
+//     return { i - 1, i + 1 };    // default: i
+// }
 
-void quickSortLomuto(int arr[], int low, int high) {
-    if (low >= high) return;
+// void quickSortLomuto(int arr[], int low, int high) {
+//     if (low >= high) return;
 
-    pii pivotIndex = lomutoPartition(arr, low, high);
-    quickSort(arr, low, pivotIndex.high);
-    quickSort(arr, pivotIndex.low, high);
-}
+//     pii pivotIndex = lomutoPartition(arr, low, high);
+//     quickSort(arr, low, pivotIndex.high);
+//     quickSort(arr, pivotIndex.low, high);
+// }
 
-pii hoarePartition(int arr[], int low, int high) {
-    int pivot = arr[(low + high) / 2];  // default
-     int i = low - 1, j = high + 1;
+// pii hoarePartition(int arr[], int low, int high) {
+//     int pivot = arr[(low + high) / 2];  // default
+//      int i = low - 1, j = high + 1;
 
-    while (true) {
-        do i++; while (arr[i] < pivot);
-        do j--; while (arr[j] > pivot);
+//     while (true) {
+//         do i++; while (arr[i] < pivot);
+//         do j--; while (arr[j] > pivot);
 
-        if (i < j) swap(arr[i], arr[j]);
-        else break;
-    }
-    return { j, j + 1 };    // default: j
-}
+//         if (i < j) swap(arr[i], arr[j]);
+//         else break;
+//     }
+//     return { j, j + 1 };    // default: j
+// }
 
-void quickSortHoare(int arr[], int low, int high) {
-    if (low >= high) return;
+// void quickSortHoare(int arr[], int low, int high) {
+//     if (low >= high) return;
 
-    pii pivotIndex = hoarePartition(arr, low, high);
-    quickSort(arr, low, pivotIndex.high);
-    quickSort(arr, pivotIndex.low, high);
-}
+//     pii pivotIndex = hoarePartition(arr, low, high);
+//     quickSort(arr, low, pivotIndex.high);
+//     quickSort(arr, pivotIndex.low, high);
+// }
 
-// int partition(int arr[], int low, int high, int pivotIndex) {
+// int lomutoPartition(int arr[], int low, int high, int pivotIndex) {
 //     int pivot = arr[pivotIndex];
 //     swap(arr[pivotIndex], arr[high]);
 //     int i = low - 1;
@@ -306,14 +306,36 @@ void quickSortHoare(int arr[], int low, int high) {
 //     return i;
 // }
 
-// void quickSort(int arr[], int low, int high) {
+// void quickSortLomuto(int arr[], int low, int high) {
 //     if (low >= high) return;
 //     int mid = low + (high - low) / 2;
-//     int pivotIndex = partition(arr, low, high, mid);
+//     int pivotIndex = lomutoPartition(arr, low, high, mid);
 
-//     quickSort(arr, low, pivotIndex - 1);
-//     quickSort(arr, pivotIndex + 1, high);
+//     quickSortLomuto(arr, low, pivotIndex - 1);
+//     quickSortLomuto(arr, pivotIndex + 1, high);
 // }
+
+int lomutoPartition(int arr[], int low, int high) {
+    swap(arr[(low + high) / 2], arr[high]);
+    int pivot = arr[high];
+    int i = low - 1;
+
+    for (int j = low; j < high; j++)
+        if (arr[j] <= pivot)
+            swap(arr[++i], arr[j]);
+
+    swap(arr[++i], arr[high]);
+    return i;
+}
+
+void quickSortLomuto(int arr[], int low, int high) {
+    if (low >= high) return;
+    int mid = low + (high - low) / 2;
+    int pivotIndex = lomutoPartition(arr, low, high);
+
+    quickSortLomuto(arr, low, pivotIndex - 1);
+    quickSortLomuto(arr, pivotIndex + 1, high);
+}
 
 int MED3(int arr[], int low, int mid, int high) {
     // int a = arr[low], b = arr[mid], c = arr[high];
@@ -382,7 +404,7 @@ int medianOfMedians(int arr[], int low, int high) {
 }
 
 // Hoare Partition
-int partition(int arr[], int low, int high) {
+int hoarePartition(int arr[], int low, int high) {
     // int pivot = arr[(low + high) / 2];  // default
     // int pivot = arr[MED3(arr, low, (low + high) / 2, high)];
     // int pivot = arr[choosePivotIndex(arr, low, high)];
@@ -400,12 +422,12 @@ int partition(int arr[], int low, int high) {
 }
 
 // Quick Sort with Hoare Partition
-void quickSort(int arr[], int low, int high) {
+void quickSortHoare(int arr[], int low, int high) {
     if (low >= high) return;
-    int pivotIndex = partition(arr, low, high);
+    int pivotIndex = hoarePartition(arr, low, high);
 
-    quickSort(arr, low, pivotIndex);
-    quickSort(arr, pivotIndex + 1, high);
+    quickSortHoare(arr, low, pivotIndex);
+    quickSortHoare(arr, pivotIndex + 1, high);
 }
 
 
@@ -475,8 +497,9 @@ void siftDown(int arr[], int low, int high, int i) {
 }
 
 void heapSort(int arr[], int low, int high) {
+    // heapify
     int n = high - low + 1;
-    for (int i = n / 2 - 1; i >= 0; i--)    // heapify
+    for (int i = n / 2 - 1; i >= 0; i--)
         siftDown(arr, low, high, i);
 
     for (int i = high; i >= low; i--) {
@@ -484,6 +507,24 @@ void heapSort(int arr[], int low, int high) {
         siftDown(arr, low, i - 1, 0);       // root: i = 0
     }
 }
+
+void introSortRecur(int arr[], int low, int high, int maxDepth) {
+    if (low < high) {
+        if (maxDepth <= 0) {
+            heapSort(arr, low, high);
+            return;
+        }
+        int pivotIndex = lomutoPartition(arr, low, high);
+        introSortRecur(arr, low, pivotIndex - 1, maxDepth - 1);
+        introSortRecur(arr, pivotIndex + 1, high, maxDepth - 1);
+    }
+}
+
+void introSort(int arr[], int low, int high) {
+    int maxDepth = 2 * log2(high - low + 1); // 재귀 깊이 제한
+    introSortRecur(arr, low, high, maxDepth);
+}
+
 
 /////////////////////////////////////////////////////////////////////
 // Non-comparision Sorting Algorithms

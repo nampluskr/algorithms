@@ -15,3 +15,4 @@ int medianSelect(int arr[], int low, int high);
 
 // Heap Select O(N)
 int heapSelect(int arr[], int low, int high, int k);
+int introSelect(int arr[], int low, int high, int k);

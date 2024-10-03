@@ -56,13 +56,13 @@ int main()
     // 효율적인 정렬 알고리즘 O(N logN)
     // testSort(quickSortLomuto, arr, low, high);
     // testSort(quickSortHoare, arr, low, high);
-    // testSort(quickSort, arr, low, high);
 
     // testSort(mergeSort, arr, low, high);
     // testSort(mergeSortBottomUp, arr, low, high);
     // testSort(hybridSort, arr, low, high, 10);
 
     testSort(heapSort, arr, low, high);
+    testSort(introSort, arr, low, high);
 
     // 특수 정렬 알고리즘 O(N)
     // testSort(bucketSort, arr, low, high);

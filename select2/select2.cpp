@@ -1,4 +1,5 @@
 #include "select2.h"
+#include <cmath>    // log2()
 
 inline void swap(int& a, int& b) { int temp = a; a = b; b = temp; }
 
@@ -34,7 +35,7 @@ int lomutoPartition(int arr[], int low, int high) {
     int i = low - 1;
 
     for (int j = low; j < high; j++)
-        if (arr[j] <= pivot) 
+        if (arr[j] <= pivot)
             swap(arr[++i], arr[j]);
 
     swap(arr[++i], arr[high]);
@@ -56,7 +57,7 @@ int quickSelectLomuto(int arr[], int low, int high, int k) {
 
 int quickSelectLomutoIter(int arr[], int low, int high, int k) {
     k += low;
-    while (low <= high) {
+    while (low < high) {
         int pivotIdx = lomutoPartition(arr, low, high);
         if (k < pivotIdx) high = pivotIdx - 1;
         else if (pivotIdx < k) low = pivotIdx + 1;
@@ -94,7 +95,7 @@ int quickSelectHoare(int arr[], int low, int high, int k) {
 
 int quickSelectHoareIter(int arr[], int low, int high, int k) {
     k += low;
-    while (low <= high) {
+    while (low < high) {
         int pivotIdx = hoarePartition(arr, low, high);
         if (k < pivotIdx) high = pivotIdx;
         else if (pivotIdx < k) low = pivotIdx + 1;
@@ -134,14 +135,36 @@ void siftDown(int arr[], int low, int high, int i) {
 }
 
 int heapSelect(int arr[], int low, int high, int k) {
+    // heapify O(N)
     int n = high - low + 1;
-    for (int i = n / 2 - 1; i >= 0; i--)    // heapify
+    for (int i = n / 2 - 1; i >= 0; i--)
         siftDown(arr, low, high, i);
 
     // k times heap sort
-    for (int i = high; i >= high - k; i--) {
+    for (int i = high; i > high - k; i--) {
         swap(arr[low], arr[i]);
-        siftDown(arr, low, i - 1, 0);       // root: i = 0
+        siftDown(arr, low, i - 1, 0);
     }
-    return arr[high - k];
+    return arr[low];
+}
+
+/////////////////////////////////////////////////////////////////////
+// Intro Select and Its Variations
+
+int introSelect(int arr[], int low, int high, int k) {
+    int maxDepth = 2 * log2(high - low + 1); // 재귀 깊이 제한
+
+    k += low;
+    while (low < high) {
+        // heap selection
+        if (maxDepth == 0) return heapSelect(arr, low, high, k - low);
+        maxDepth--;
+
+        // quick selection
+        int pivotIndex = lomutoPartition(arr, low, high);
+        if (k < pivotIndex) high = pivotIndex - 1;
+        else if (pivotIndex < k) low = pivotIndex + 1;
+        else return arr[pivotIndex];
+    }
+    return arr[low];
 }
