@@ -6,7 +6,7 @@
 
 int arr[MAX_SIZE];
 int n = MAX_SIZE;                // 배열의 원소 개수
-int maxValue = 100;             // 배열의 원소 중 최대값
+int maxValue = 10000;             // 배열의 원소 중 최대값
 unsigned long long seed = 48;
 
 int rand(unsigned long long seed) {
@@ -62,12 +62,12 @@ int main()
     // testSort(mergeSortBottomUp, arr, low, high);
     // testSort(hybridSort, arr, low, high, 10);
 
-    heapSort(arr, low, high);
+    // testSort(heapSort, arr, low, high);
 
     // 특수 정렬 알고리즘 O(N)
     // testSort(bucketSort, arr, low, high);
     // testSort(countingSort, arr, low, high);
-    // testSort(radixSort10, arr, low, high);
+    testSort(radixSort10, arr, low, high);
     // testSort(radixSort256, arr, low, high);
 
     printArray(arr, 0, n - 1);

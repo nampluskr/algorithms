@@ -1,10 +1,12 @@
 #include "sort2.h"
 #include <cstdio>
+#include <cmath>
 
 inline void swap(int& a, int& b) { int temp = a; a = b; b = temp; }
 inline int min(int a, int b) { return (a < b)? a: b; }
 inline int max(int a, int b) { return (a < b)? b: a; }
 inline int ceil(int a, int b) { return (a + b - 1) / b; }
+
 
 void printArray(int arr[], int low, int high) {
     printf(">> ");
@@ -521,15 +523,21 @@ void bucketSort(int arr[], int low, int high) {
 }
 
 void countingSort(int arr[], int low, int high) {
-    int base = 1'000'000;       // 0 <= arr[j] < base (MAX_NUM)
-    int count[base];
+    int maxValue = arr[low];
+    int minValue = arr[low];
+    for (int i = low + 1; i <= high; ++i) {
+        maxValue = max(maxValue, arr[i]);
+        minValue = min(minValue, arr[i]);
+    }
+    int range = maxValue - minValue + 1;
+    int count[range];
     int sorted[high - low + 1];
 
-    for (int j = 0; j < base; j++) count[j] = 0;                        // initialize
-    for (int j = low; j <= high; j++) count[arr[j]]++;                  // count
-    for (int j = 1; j < base; j++) count[j] += count[j - 1];            // accumulate
-    for (int j = high; j >= low; j--) sorted[--count[arr[j]]] = arr[j]; // sort
-    for (int j = low; j <= high; j++) arr[j] = sorted[j - low];         // copy
+    for (int j = 0; j < range; j++) count[j] = 0;
+    for (int j = low; j <= high; j++) count[arr[j] - minValue]++;
+    for (int j = 1; j < range; j++) count[j] += count[j - 1];
+    for (int j = high; j >= low; j--) sorted[--count[arr[j] - minValue]] = arr[j];
+    for (int j = low; j <= high; j++) arr[j] = sorted[j - low];
 }
 
 void radixSort10(int arr[], int low, int high) {
@@ -539,7 +547,11 @@ void radixSort10(int arr[], int low, int high) {
     int sorted[high - low + 1];
 
     // counting sort in base 10 for 10^i digit
-    for (int i = 0; i < 6; i++, decimal *= 10) {
+    int maxValue = arr[low];
+    for (int i = low + 1; i <= high; ++i)
+        maxValue = max(maxValue, arr[i]);
+
+    for (int i = 0; i <= (int)log10(maxValue); i++, decimal *= 10) {
         for (int j = 0; j < base; j++) count[j] = 0;
         for (int j = low; j <= high; j++) count[arr[j] / decimal % base]++;
         for (int j = 1; j < base; j++) count[j] += count[j - 1];
@@ -555,7 +567,11 @@ void radixSort256(int arr[], int low, int high) {
     int sorted[high - low + 1];
 
     // counting sort in base 256 for 256^i digit
-    for (int i = 0; i < 32; i += 8) {
+    int maxValue = arr[low];
+    for (int i = low + 1; i <= high; ++i)
+        maxValue = max(maxValue, arr[i]);
+
+    for (int i = 0; i <= (int)log2(maxValue); i += 8) {
         for (int j = 0; j < base; j++) count[j] = 0;
         for (int j = low; j <= high; j++) count[(arr[j] >> i) & mask]++;
         for (int j = 1; j < base; j++) count[j] += count[j - 1];
