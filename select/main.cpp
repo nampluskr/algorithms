@@ -13,13 +13,13 @@ int main()
 {
     int arr[] = { 90, 10, 80, 30, 20, 70, 40, 50, 60 };
     int n = sizeof(arr) / sizeof(arr[0]);
-    int value, k = n / 2;
+    int value, k = 5;
 
-    // printArray(arr, 0, n - 1);
-    // // lomutoQuickSort(arr, 0, n - 1);
-    // idx = lomutoQuickSelect(arr, 0, n - 1, k);
-    // printf(">> %d-th element: %d\n", k + 1, idx);
-    // printArray(arr, 0, n - 1);
+    printArray(arr, 0, n - 1);
+    // lomutoQuickSort(arr, 0, n - 1);
+    int idx = lomutoQuickSelect(arr, 0, n - 1, k);
+    printf(">> %d-th element: %d\n", k, idx);
+    printArray(arr, 0, n - 1);
 
     // printArray(arr, 0, n - 1);
     // hoareQuickSort(arr, 0, n - 1);
@@ -32,11 +32,11 @@ int main()
     // printf(">> %d-th element: %d\n", k + 1, value);
     // printArray(arr, 0, n - 1);
 
-    printArray(arr, 0, n - 1);
-    // value = hoareQuickSelectIter(arr, n, k);
-    value = medianSelect(arr, 0, n - 1);
-    printf(">> %d-th element: %d\n", n / 2 + 1, value);
-    printArray(arr, 0, n - 1);
+    // printArray(arr, 0, n - 1);
+    // // value = hoareQuickSelectIter(arr, n, k);
+    // value = medianSelect(arr, 0, n - 1);
+    // printf(">> %d-th element: %d\n", n / 2 + 1, value);
+    // printArray(arr, 0, n - 1);
 
     return 0;
 }
