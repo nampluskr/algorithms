@@ -20,7 +20,9 @@ void cycleSort(int arr[], int low, int high);
 
 // Efficient and Fast Sorting Algorithms
 void quickSortLomuto(int arr[], int low, int high);
+void quickSortLomutoIter(int arr[], int low, int high);
 void quickSortHoare(int arr[], int low, int high);
+void quickSortHoareIter(int arr[], int low, int high);
 
 void mergeSort(int arr[], int low, int high);
 void mergeSortBottomUp(int arr[], int low, int high);

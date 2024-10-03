@@ -337,6 +337,29 @@ void quickSortLomuto(int arr[], int low, int high) {
     quickSortLomuto(arr, pivotIndex + 1, high);
 }
 
+void quickSortLomutoIter(int arr[], int low, int high) {
+    int stack[high - low + 1];
+    int top = -1;
+    stack[++top] = low;
+    stack[++top] = high;
+
+    while (top >= 0) {
+        high = stack[top--];
+        low = stack[top--];
+
+        int pivotIndex = lomutoPartition(arr, low, high);
+        if (pivotIndex - 1 > low) {
+            stack[++top] = low;
+            stack[++top] = pivotIndex - 1;
+        }
+        if (pivotIndex + 1 < high) {
+            stack[++top] = pivotIndex + 1;
+            stack[++top] = high;
+        }
+    }
+}
+
+
 int MED3(int arr[], int low, int mid, int high) {
     // int a = arr[low], b = arr[mid], c = arr[high];
     // if (a < b) {
@@ -430,6 +453,27 @@ void quickSortHoare(int arr[], int low, int high) {
     quickSortHoare(arr, pivotIndex + 1, high);
 }
 
+void quickSortHoareIter(int arr[], int low, int high) {
+    int stack[high - low + 1];
+    int top = -1;
+    stack[++top] = low;
+    stack[++top] = high;
+
+    while (top >= 0) {
+        high = stack[top--];
+        low = stack[top--];
+
+        int pivotIndex = hoarePartition(arr, low, high);
+        if (pivotIndex > low) {
+            stack[++top] = low;
+            stack[++top] = pivotIndex;
+        }
+        if (pivotIndex + 1 < high) {
+            stack[++top] = pivotIndex + 1;
+            stack[++top] = high;
+        }
+    }
+}
 
 /////////////////////////////////////////////////////////////////////
 // Merge Sort and Its Variations
