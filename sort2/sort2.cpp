@@ -1,24 +1,35 @@
 #include "sort2.h"
+#include <cstdio>
 
 inline void swap(int& a, int& b) { int temp = a; a = b; b = temp; }
 inline int min(int a, int b) { return (a < b)? a: b; }
 inline int max(int a, int b) { return (a < b)? b: a; }
 inline int ceil(int a, int b) { return (a + b - 1) / b; }
 
+void printArray(int arr[], int low, int high) {
+    printf(">> ");
+    for (int i = low; i < high; i++)
+        printf("%d, ", arr[i]);
+    printf("%d\n", arr[high]);
+}
+
 /////////////////////////////////////////////////////////////////////
 // Bubble Sort and Its Variations
 
 void bubbleSort(int arr[], int low, int high) {
+    // 구현 1
     for (int i = high; i > low ; i--)
         for (int j = low; j < i; j++)
             if (arr[j] > arr[j + 1])
                 swap(arr[j], arr[j + 1]);
 
+    // 구현 2
     // for (int i = 0; i < high - low; i++)
     //     for (int j = low; j < high - i; j++)
     //         if (arr[j] > arr[j + 1])
     //             swap(arr[j], arr[j + 1]);
 
+    // 구현 3
     // while (low < high) {
     //     for (int j = low; j < high; j++)
     //         if (arr[j] > arr[j + 1])
@@ -363,9 +374,6 @@ int medianOfMedians(int arr[], int low, int high) {
 
     // 중앙값의 중앙값 구하기 (재귀적으로 호출)
     return medianOfMedians(medians, 0, groupCnt - 1);
-    // int median = medianOfMedians(medians, 0, groupCnt - 1);
-    // // delete[] medians;
-    // return median;
 
     // 중앙값의 중앙값 구하기 (선형 시간 알고리즘 사용)
     // return select(medians, 0, groupCnt - 1, groupCnt / 2);
@@ -450,7 +458,30 @@ void hybridSort(int arr[], int low, int high, int threshold) {
     }
 }
 
-void heapSort(int arr[], int low, int high) {}
+// i = 0, 1, 2, ... n - 1 [상대적 노드 번호]
+void siftDown(int arr[], int low, int high, int i) {
+    int cur = low + i;
+    int left = low + 2 * i + 1;
+    int right = low + 2 * i + 2;
+
+    if (left <= high && arr[left] > arr[cur]) cur = left;
+    if (right <= high && arr[right] > arr[cur]) cur = right;
+    if (cur != low + i) {
+        swap(arr[cur], arr[low + i]);
+        siftDown(arr, low, high, cur - low);
+    }
+}
+
+void heapSort(int arr[], int low, int high) {
+    int n = high - low + 1;
+    for (int i = n / 2 - 1; i >= 0; i--)    // heapify
+        siftDown(arr, low, high, i);
+
+    for (int i = high; i >= low; i--) {
+        swap(arr[low], arr[i]);
+        siftDown(arr, low, i - 1, 0);       // root: i = 0
+    }
+}
 
 /////////////////////////////////////////////////////////////////////
 // Non-comparision Sorting Algorithms

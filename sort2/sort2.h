@@ -1,5 +1,7 @@
 #pragma once
 
+void printArray(int arr[], int low, int high);
+
 // Elementary Sorting Algorithms
 void bubbleSort(int arr[], int low, int high);
 void bubbleSortRecursive(int arr[], int low, int high);

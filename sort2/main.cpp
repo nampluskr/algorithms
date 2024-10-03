@@ -21,13 +21,6 @@ void initArray(int arr[], int n, int maxValue, int seed) {
     }
 }
 
-void printArray(int arr[], int low, int high) {
-    printf(">> ");
-    for (int i = low; i < high; i++)
-        printf("%d, ", arr[i]);
-    printf("%d\n", arr[high]);
-}
-
 void testSort(void (*sortFunc)(int[], int, int), int arr[], int low, int high) {
     sortFunc(arr, low, high);
 }
@@ -58,7 +51,7 @@ int main()
     // testSort(shellSort, arr, low, high);
     // testSort(shellSortKnuth, arr, low, high);
 
-    testSort(cycleSort, arr, low, high);
+    // testSort(cycleSort, arr, low, high);
 
     // 효율적인 정렬 알고리즘 O(N logN)
     // testSort(quickSortLomuto, arr, low, high);
@@ -68,6 +61,8 @@ int main()
     // testSort(mergeSort, arr, low, high);
     // testSort(mergeSortBottomUp, arr, low, high);
     // testSort(hybridSort, arr, low, high, 10);
+
+    heapSort(arr, low, high);
 
     // 특수 정렬 알고리즘 O(N)
     // testSort(bucketSort, arr, low, high);
