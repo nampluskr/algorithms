@@ -462,7 +462,7 @@ void hybridSort(int arr[], int low, int high, int threshold) {
 
 // i = 0, 1, 2, ... n - 1 [상대적 노드 번호]
 void siftDown(int arr[], int low, int high, int i) {
-    int cur = low + i;
+    int cur = low + i;          // largest index
     int left = low + 2 * i + 1;
     int right = low + 2 * i + 2;
 

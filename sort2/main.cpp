@@ -62,12 +62,12 @@ int main()
     // testSort(mergeSortBottomUp, arr, low, high);
     // testSort(hybridSort, arr, low, high, 10);
 
-    // testSort(heapSort, arr, low, high);
+    testSort(heapSort, arr, low, high);
 
     // 특수 정렬 알고리즘 O(N)
     // testSort(bucketSort, arr, low, high);
     // testSort(countingSort, arr, low, high);
-    testSort(radixSort10, arr, low, high);
+    // testSort(radixSort10, arr, low, high);
     // testSort(radixSort256, arr, low, high);
 
     printArray(arr, 0, n - 1);
