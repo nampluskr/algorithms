@@ -5,9 +5,9 @@ void testList(T& sll) {
     sll.show();
     sll.insert(50);
     sll.insert(40);
+    sll.insert(10);
     sll.insert(20);
     sll.insert(30);
-    sll.insert(10);
     sll.insert(20);
     sll.show();
 

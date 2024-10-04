@@ -13,10 +13,10 @@ struct UnorderedListRecur {
     ~UnorderedListRecur() { clear(); }
 
     void clear() { head = clearRecur(head); }
-    void insert(int data) { head = insertRecur(head, data); }
     Node* find(int data) { return findRecur(head, data); }
+    void insert(int data) { head = insertRecur(head, data); }
     void remove(int data) { head = removeRecur(head, data); }
-    void show() { printf(">> head->"); show(head); printf("null\n"); }
+    void show() { printf(">> head->"); showRecur(head); printf("null\n"); }
 
     Node* clearRecur(Node* node) {
         if (node == nullptr) return nullptr;
@@ -45,10 +45,10 @@ struct UnorderedListRecur {
         node->next = removeRecur(node->next, data);
         return node;
     }
-    void show(Node* node) {
+    void showRecur(Node* node) {
         if (node == nullptr) return;
         printf("%d->", node->data);
-        show(node->next);
+        showRecur(node->next);
     }
 };
 
@@ -67,6 +67,14 @@ struct UnorderedListIter {
         }
         head = nullptr;
     }
+    Node* find(int data) {
+        Node* node = head;
+        while (node != nullptr) {
+            if (node->data == data) return node;
+            node = node->next;
+        }
+        return nullptr;
+    }
     void insert(int data) {
         Node* prev = nullptr;
         Node* node = head;
@@ -78,14 +86,6 @@ struct UnorderedListIter {
         Node* newNode = new Node{ data, node };
         if (prev == nullptr) head = newNode;
         else prev->next = newNode;
-    }
-    Node* find(int data) {
-        Node* node = head;
-        while (node != nullptr) {
-            if (node->data == data) return node;
-            node = node->next;
-        }
-        return nullptr;
     }
     void remove(int data) {
         Node* prev = nullptr;
@@ -119,10 +119,10 @@ struct OrderedListRecur {
     ~OrderedListRecur() { clear(); }
 
     void clear() { head = clearRecur(head); }
-    void insert(int data) { head = insertRecur(head, data); }
     Node* find(int data) { return findRecur(head, data); }
+    void insert(int data) { head = insertRecur(head, data); }
     void remove(int data) { head = removeRecur(head, data); }
-    void show() { printf(">> head->"); show(head); printf("null\n"); }
+    void show() { printf(">> head->"); showRecur(head); printf("null\n"); }
 
     Node* clearRecur(Node* node) {
         if (node == nullptr) return nullptr;
@@ -154,10 +154,10 @@ struct OrderedListRecur {
         else node = nullptr;
         return node;
     }
-    void show(Node* node) {
+    void showRecur(Node* node) {
         if (node == nullptr) return;
         printf("%d->", node->data);
-        show(node->next);
+        showRecur(node->next);
     }
 };
 
@@ -176,6 +176,15 @@ struct OrderedListIter {
         }
         head = nullptr;
     }
+    Node* find(int data) {
+        Node* node = head;
+        while (node != nullptr) {
+            if (node->data == data) return node;
+            if (node->data < data) node = node->next;
+            else return nullptr;
+        }
+        return nullptr;
+    }
     void insert(int data) {
         Node* prev = nullptr;
         Node* node = head;
@@ -187,15 +196,6 @@ struct OrderedListIter {
         Node* newNode = new Node{ data, node };
         if (prev == nullptr) head = newNode;
         else prev->next = newNode;
-    }
-    Node* find(int data) {
-        Node* node = head;
-        while (node != nullptr) {
-            if (node->data == data) return node;
-            if (node->data < data) node = node->next;
-            else return nullptr;
-        }
-        return nullptr;
     }
     void remove(int data) {
         Node* prev = nullptr;
