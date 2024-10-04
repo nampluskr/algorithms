@@ -20,9 +20,12 @@ struct UnorderedListRecur {
 
     Node* clearRecur(Node* node) {
         if (node == nullptr) return nullptr;
-        Node* next = node->next;
+        // Node* next = node->next;
+        // delete node;
+        // return clearRecur(next);
+        clearRecur(node->next);
         delete node;
-        return clearRecur(next);
+        return nullptr;
     }
     Node* findRecur(Node* node, int data) {
         if (node == nullptr) return nullptr;
@@ -126,9 +129,12 @@ struct OrderedListRecur {
 
     Node* clearRecur(Node* node) {
         if (node == nullptr) return nullptr;
-        Node* next = node->next;
+        // Node* next = node->next;
+        // delete node;
+        // return clearRecur(next);
+        clearRecur(node->next);
         delete node;
-        return clearRecur(next);
+        return nullptr;
     }
     Node* findRecur(Node* node, int data) {
         if (node == nullptr) return nullptr;
