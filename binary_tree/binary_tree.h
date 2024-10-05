@@ -19,26 +19,26 @@ struct BSTRecur {
     Node* find(int data) { return findRecur(root, data); }
     void insert(int data) { root = insertRecur(root, data); }
     void remove(int data) { root = removeRecur(root, data); }
-    void show() { printf(">> "); showRecur(root); printf("\n"); }
+    void show() { printf(">> "); inOrder(root); printf("\n"); }
 
 private:
-    // void clearRecur(Node* node) {  // postorder traversal
-    //     if (node == nullptr) return;
-    // 
-    //     clearRecur(node->left);
-    //     clearRecur(node->right);
-    //     delete node;
-    // }
-    void clearRecur(Node* node) {  // preorder traversal
+    void clearRecur(Node* node) {  // postorder traversal
         if (node == nullptr) return;
-
-        Node* left = node->left;
-        Node* right = node->right;
+    
+        clearRecur(node->left);
+        clearRecur(node->right);
         delete node;
-
-        clearRecur(left);
-        clearRecur(right);
     }
+    // void clearRecur(Node* node) {  // preorder traversal
+    //     if (node == nullptr) return;
+
+    //     Node* left = node->left;
+    //     Node* right = node->right;
+    //     delete node;
+
+    //     clearRecur(left);
+    //     clearRecur(right);
+    // }
     Node* findRecur(Node* node, int data) {
         if (node == nullptr) return nullptr;
         if (node->data == data) return node;
@@ -78,30 +78,42 @@ private:
         return node;
 
         // Implementation-2
-        // if (node == nullptr) return nullptr;
-        // if (data == node->data) {
-        //     if (node->left == nullptr && node->right == nullptr) {
-        //         delete node;
-        //         return nullptr;
-        //     } else if (node->right != nullptr) {
-        //         Node* minNode = findMin(node->right);  // successor
-        //         node->data = minNode->data;
-        //         node->right = removeRecur(node->right, minNode->data);
-        //     } else if (node->left != nullptr) {
-        //         Node* maxNode = findMax(node->left);   // predecessor
-        //         node->data = maxNode->data;
-        //         node->left = removeRecur(node->left, maxNode->data);
-        //     }
-        // }
-        // if (data < node->data) node->left = removeRecur(node->left, data);
-        // else node->right = removeRecur(node->right, data);
-        // return node;
+        if (node == nullptr) return nullptr;
+        if (data == node->data) {
+            if (node->left == nullptr && node->right == nullptr) {
+                delete node;
+                return nullptr;
+            } else if (node->right != nullptr) {
+                Node* minNode = findMin(node->right);  // successor
+                node->data = minNode->data;
+                node->right = removeRecur(node->right, minNode->data);
+            } else if (node->left != nullptr) {
+                Node* maxNode = findMax(node->left);   // predecessor
+                node->data = maxNode->data;
+                node->left = removeRecur(node->left, maxNode->data);
+            }
+        }
+        if (data < node->data) node->left = removeRecur(node->left, data);
+        else node->right = removeRecur(node->right, data);
+        return node;
     }
-    void showRecur(Node* node) {
+    void inOrder(Node* node) {
         if (node == nullptr) return;
-        showRecur(node->left);
-        printf("%d->", node->data); // inorder
-        showRecur(node->right);
+        inOrder(node->left);
+        printf("%d->", node->data);
+        inOrder(node->right);
+    }
+    void preOrder(Node* node) {
+        if (node == nullptr) return;
+        printf("%d->", node->data);
+        preOrder(node->left);
+        preOrder(node->right);
+    }
+    void postOrder(Node* node) {
+        if (node == nullptr) return;
+        postOrder(node->left);
+        postOrder(node->right);
+        printf("%d->", node->data);
     }
     Node* findMin(Node* node) {
         if (node == nullptr) return nullptr;
@@ -121,7 +133,7 @@ struct BSTIter {
     BSTIter() { root = nullptr; }
     ~BSTIter() { clear(); }
 
-    void clear() { // postorder traversal
+    void clear() { // preorder traversal
         if (root == nullptr) return;
 
         std::stack<Node*> stack;
@@ -194,21 +206,60 @@ struct BSTIter {
         }
         delete node;
     }
-    void show() {   // inorder traversal
-        printf(">> ");
-        std::stack<Node*> S;
-        Node* node = root;
-        if (node == nullptr) { printf("\n"); return; }
+    void show() { printf(">> "); inOrder(root); printf("\n"); }
 
-        while (node != nullptr || !S.empty()) {
-            while (node != nullptr) {
-                S.push(node);
-                node = node->left;
-            }
-            node = S.top(); S.pop();
-            printf("%d->", node->data);
-            node = node->right;
+private:
+    void preOrder(Node* node) {
+        if (node == nullptr) return;
+
+        std::stack<Node*> S;
+        S.push(node);
+        while (!S.empty()) {
+            Node* curr = S.top(); S.pop();
+
+            printf("%d->", curr->data);
+            if (curr->right != nullptr) S.push(curr->right);
+            if (curr->left != nullptr) S.push(curr->left);
+            // printf("%d->", curr->data);
         }
-        printf("\n");
+    }   
+    void inOrder(Node* node) {
+        if (node == nullptr) return;
+
+        std::stack<Node*> S;
+        Node* curr = node;
+        while (curr != nullptr || !S.empty()) {
+            while (curr != nullptr) {
+                S.push(curr);
+                curr = curr->left;
+            }
+            curr = S.top(); S.pop();
+            printf("%d->", curr->data);
+            curr = curr->right;
+        }
+    }
+    void levelOrder(Node* node) {
+        if (node == nullptr) return;
+
+        std::queue<Node*> Q;
+        Q.push(node);
+        while (!Q.empty()) {
+            Node* curr = Q.front(); Q.pop();
+
+            printf("%d->", curr->data);
+            if (curr->right != nullptr) Q.push(curr->right);
+            if (curr->left != nullptr) Q.push(curr->left);
+            // printf("%d->", curr->data);
+        }
+    }
+    Node* findMin(Node* node) {
+        if (node == nullptr) return nullptr;
+        while (node->left != nullptr) node = node->left;
+        return node;
+    }
+    Node* findMax(Node* node) {
+        if (node == nullptr) return nullptr;
+        while (node->right != nullptr) node = node->right;
+        return node;
     }
 };

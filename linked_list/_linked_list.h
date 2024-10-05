@@ -1,36 +1,36 @@
 #pragma once
 #include <cstdio>
-#include <stack>
 
 struct Node {
     int data;
     Node* next;
 };
 
-struct LinkedListRecur {
+struct UnorderedListRecur {
     Node* head;
 
-    LinkedListRecur() { head = nullptr; }
-    ~LinkedListRecur() { clear(); }
+    UnorderedListRecur() { head = nullptr; }
+    ~UnorderedListRecur() { clear(); }
 
-    void clear() { clearRecur(head); head = nullptr; }
+    void clear() { head = clearRecur(head); }
     Node* find(int data) { return findRecur(head, data); }
     void insert(int data) { head = insertRecur(head, data); }
     void remove(int data) { head = removeRecur(head, data); }
-    void show() { printf(">> head->"); preOrder(head); printf("null\n"); }
+    void show() { printf(">> head->"); showRecur(head); printf("null\n"); }
 
 private:
-    void clearRecur(Node* node) {
-        // postorder
-        if (node == nullptr) return;
-        clearRecur(node->next);
-        delete node;
-
+    Node* clearRecur(Node* node) {
         // preorder
-        // if (node == nullptr) return;
+        // if (node == nullptr) return nullptr;
         // Node* next = node->next;
         // delete node;
-        // clearRecur(next);
+        // return clearRecur(next);
+
+        // postorder
+        if (node == nullptr) return nullptr;
+        clearRecur(node->next);
+        delete node;
+        return nullptr;
     }
     Node* findRecur(Node* node, int data) {
         if (node == nullptr) return nullptr;
@@ -53,42 +53,26 @@ private:
         node->next = removeRecur(node->next, data);
         return node;
     }
-    void preOrder(Node* node) {
+    void showRecur(Node* node) {
         if (node == nullptr) return;
-        printf("%d->", node->data);
-        preOrder(node->next);
-    }
-    void postOrder(Node* node) {
-        if (node == nullptr) return;
-        postOrder(node->next);
-        printf("%d->", node->data);
+        printf("%d->", node->data);     // preorder
+        showRecur(node->next);
+        // printf("%d->", node->data);  // post order
     }
 };
 
-
-struct LinkedListIter {
+struct UnorderedListIter {
     Node* head;
 
-    LinkedListIter() { head = nullptr; }
-    ~LinkedListIter() { clear(); }
+    UnorderedListIter() { head = nullptr; }
+    ~UnorderedListIter() { clear(); }
 
     void clear() {
-        // Node* node = head;
-        // while (node != nullptr) {
-        //     Node* next = node->next;
-        //     delete node;
-        //     node = next;
-        // }
-        // head = nullptr;
-
-        // stack
-        if (head == nullptr) return;
-        std::stack<Node*> S;
-        S.push(head);
-        while (!S.empty()) {
-            Node* node = S.top(); S.pop();
-            if (node->next != nullptr) S.push(node->next);
+        Node* node = head;
+        while (node != nullptr) {
+            Node* next = node->next;
             delete node;
+            node = next;
         }
         head = nullptr;
     }
@@ -116,70 +100,52 @@ struct LinkedListIter {
         Node* prev = nullptr;
         Node* node = head;
         while (node != nullptr) {
-            if (node->data == data) break;
+            if (node->data == data) {
+                if (prev == nullptr) head = node->next;
+                else prev->next = node->next;
+                delete node;
+                return;
+            }
             prev = node;
             node = node->next;
         }
-        if (node == nullptr) return; // No data node
-
-        if (prev == nullptr) head = node->next;
-        else prev->next = node->next;
-        delete node;
     }
-    void show() { printf(">> head->"); preOrder(); printf("null\n"); }
-
-private:
-    void preOrder() {
-        // Node* node = head;
-        // while (node != nullptr) {
-        //     printf("%d->", node->data);
-        //     node = node->next;
-        // }
-
-        if (head == nullptr) return;
-
-        std::stack<Node*> S;
-        S.push(head);
-        while (!S.empty()) {
-            Node* node = S.top(); S.pop();
-            if (node->next != nullptr) S.push(node->next);
-            printf("%d->", node->data);
-        }
-    }
-    void postOrder() {
-        if (head == nullptr) return;
-
-        std::stack<Node*> S;
+    void show() {
+        printf(">> head->");
         Node* node = head;
-        while(node != nullptr) {
-            S.push(node);
+        while (node != nullptr) {
+            printf("%d->", node->data);
             node = node->next;
         }
-        while (!S.empty()) {
-            node = S.top(); S.pop();
-            printf("%d->", node->data);
-        }
+        printf("null\n");
     }
 };
 
-
-struct OrderedListRecur: LinkedListRecur {
+struct OrderedListRecur {
     Node* head;
 
     OrderedListRecur() { head = nullptr; }
     ~OrderedListRecur() { clear(); }
 
-    void clear() { clearRecur(head); head = nullptr; }
+    void clear() { head = clearRecur(head); }
     Node* find(int data) { return findRecur(head, data); }
     void insert(int data) { head = insertRecur(head, data); }
     void remove(int data) { head = removeRecur(head, data); }
     void show() { printf(">> head->"); showRecur(head); printf("null\n"); }
 
 private:
-    void clearRecur(Node* node) {
-        if (node == nullptr) return;
+    Node* clearRecur(Node* node) {
+        // preorder
+        // if (node == nullptr) return nullptr;
+        // Node* next = node->next;
+        // delete node;
+        // return clearRecur(next);
+
+        // postorder
+        if (node == nullptr) return nullptr;
         clearRecur(node->next);
         delete node;
+        return nullptr;
     }
     Node* findRecur(Node* node, int data) {
         if (node == nullptr) return nullptr;
@@ -211,7 +177,6 @@ private:
         showRecur(node->next);
     }
 };
-
 
 struct OrderedListIter {
     Node* head;
@@ -253,15 +218,15 @@ struct OrderedListIter {
         Node* prev = nullptr;
         Node* node = head;
         while (node != nullptr) {
-            if (node->data == data) break;
+            if (node->data == data) {
+                if (prev == nullptr) head = node->next;
+                else prev->next = node->next;
+                delete node;
+                return;
+            }
             if (node->data < data) { prev = node; node = node->next; }
             else return;
         }
-        if (node == nullptr) return;
-
-        if (prev == nullptr) head = node->next;
-        else prev->next = node->next;
-        delete node;
     }
     void show() {
         printf(">> head->");
