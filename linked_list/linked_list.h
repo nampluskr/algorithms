@@ -18,11 +18,16 @@ struct UnorderedListRecur {
     void remove(int data) { head = removeRecur(head, data); }
     void show() { printf(">> head->"); showRecur(head); printf("null\n"); }
 
+private:
     Node* clearRecur(Node* node) {
-        if (node == nullptr) return nullptr;
+        // preorder
+        // if (node == nullptr) return nullptr;
         // Node* next = node->next;
         // delete node;
         // return clearRecur(next);
+
+        // postorder
+        if (node == nullptr) return nullptr;
         clearRecur(node->next);
         delete node;
         return nullptr;
@@ -50,8 +55,9 @@ struct UnorderedListRecur {
     }
     void showRecur(Node* node) {
         if (node == nullptr) return;
-        printf("%d->", node->data);
+        printf("%d->", node->data);     // preorder
         showRecur(node->next);
+        // printf("%d->", node->data);  // post order
     }
 };
 
@@ -127,11 +133,16 @@ struct OrderedListRecur {
     void remove(int data) { head = removeRecur(head, data); }
     void show() { printf(">> head->"); showRecur(head); printf("null\n"); }
 
+private:
     Node* clearRecur(Node* node) {
-        if (node == nullptr) return nullptr;
+        // preorder
+        // if (node == nullptr) return nullptr;
         // Node* next = node->next;
         // delete node;
         // return clearRecur(next);
+
+        // postorder
+        if (node == nullptr) return nullptr;
         clearRecur(node->next);
         delete node;
         return nullptr;
