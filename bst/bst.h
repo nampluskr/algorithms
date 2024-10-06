@@ -10,13 +10,14 @@ struct Node {
 
 // BST Interface
 struct BSTInterface {
+    virtual ~BSTInterface() {}
+
     virtual void clear(Node* node) = 0;
     virtual Node* find(Node* node, int data) const = 0;
     virtual Node* insert(Node* node, int data) = 0;
     virtual Node* remove(Node* node, int data) = 0;
     virtual Node* findMin(Node* node) const = 0;
     virtual void inOrder(Node* node) const = 0;
-    virtual ~BSTInterface() {}
 };
 
 // Concrete BST
@@ -35,6 +36,7 @@ struct BSTRecur: BSTInterface {
     }
     Node* insert(Node* node, int data) override {
         if (node == nullptr) return new Node{ data, nullptr, nullptr };
+        if (data == node->data) return node;    // No duplicates
         else if (data < node->data) node->left = insert(node->left, data);
         else node->right = insert(node->right, data);
         return node;
@@ -78,7 +80,7 @@ struct BSTRecur: BSTInterface {
 
 // Concrete BST
 struct BSTIter: BSTInterface {
-    void clear(Node* node) {
+    void clear(Node* node) override {
         if (node == nullptr) return;
 
         std::stack<Node*> S;
@@ -103,7 +105,7 @@ struct BSTIter: BSTInterface {
         Node* prev = nullptr;
         Node* curr = node;
         while (curr != nullptr) {
-            if (data == curr->data) return node;
+            if (data == curr->data) return node;    // No duplicates
             prev = curr;
             if (data < curr->data) curr = curr->left;
             else curr = curr->right;
@@ -136,19 +138,23 @@ struct BSTIter: BSTInterface {
             if (prev == nullptr) node = curr->right;
             else if (prev->left == curr) prev->left = curr->right;
             else prev->right = curr->right;
-            delete curr;
-            return node;
         } else if (curr->right == nullptr) {
             if (prev == nullptr) node = curr->left;
             else if (prev->left == curr) prev->left = curr->left;
             else prev->right = curr->left;
-            delete curr;
-            return node;
         } else {
-            Node* successor = findMin(curr->right);
-            curr->data = successor->data;
-            curr->right = remove(curr->right, successor->data);
+            Node* _prev = curr;
+            Node* _curr = curr->right;
+            while (_curr->left != nullptr) {
+                _prev = _curr;
+                _curr = _curr->left;
+            }
+            curr->data = _curr->data;
+            if (_prev->left == _curr) _prev->left = _curr->right;
+            else _prev->right = _curr->right;
+            curr = _curr;
         }
+        delete curr;
         return node;
     }
     Node* findMin(Node* node) const override {
