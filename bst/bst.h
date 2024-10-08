@@ -191,3 +191,77 @@ struct BinarySearchTree {
     void remove(int data) { root = bst->remove(root, data); }
     void show() { printf(">> "); bst->inOrder(root); printf("\n"); }
 };
+
+#if 0
+void clear() {
+        // 루트 노드부터 시작하여 후위 순회하며 삭제
+        Node* current = root;
+        Node* temp;
+        while (current) {
+            if (current->left) {
+                // 왼쪽 자식이 있으면 왼쪽 서브트리로 이동
+                current = current->left;
+            } else {
+                // 왼쪽 자식이 없으면 오른쪽 자식 또는 부모 노드로 이동
+                temp = current;
+                if (current->right) {
+                    current = current->right;
+                } else {
+                    // 현재 노드를 삭제하고 부모 노드의 포인터를 null로 설정
+                    if (temp == root) {
+                        root = nullptr;
+                    } else if (temp == temp->parent->left) {
+                        temp->parent->left = nullptr;
+                    } else {
+                        temp->parent->right = nullptr;
+                    }
+                    delete temp;
+                    current = nullptr;
+                }
+            }
+        }
+    }
+#endif
+
+#if 0
+// 중위 순회: 위 코드는 중위 순회를 기반으로 구현되었습니다.
+// 전위 순회나 후위 순회를 위해서는 스택의 사용 방식을 변경해야 합니다.
+// 시간 복잡도: 중위 순회의 시간 복잡도는 O(n)입니다.
+// 메모리 공간: 스택을 사용하기 때문에 추가적인 메모리 공간이 필요합니다.
+    struct Iterator {
+        Node* current;
+        std::stack<Node*> stack;
+
+        Iterator(Node* root) {
+            current = root;
+            while (current) {
+                stack.push(current);
+                current = current->left;
+            }
+        }
+
+        bool operator!=(const Iterator& other) const {
+            return stack != other.stack;
+        }
+
+        Iterator& operator++() {
+            current = stack.top();
+            stack.pop();
+
+            Node* next = current->right;
+            while (next) {
+                stack.push(next);
+                next = next->left;
+            }
+
+            return *this;
+        }
+
+        int& operator*() {
+            return current->data;
+        }
+    };
+
+    Iterator begin() { return Iterator(root); }
+    Iterator end() { return Iterator(nullptr); }
+#endif
