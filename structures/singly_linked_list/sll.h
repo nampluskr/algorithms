@@ -10,20 +10,17 @@ template<typename T>
 struct SLLHead {
     Node<T>* head = nullptr;
 
-    // O(1)
-    void push_front(const T& data) {
+    void push_front(const T& data) {    // O(1)
         Node<T>* newNode = new Node<T>{ data, nullptr };
         if (head == nullptr) head = newNode;
         else { newNode->next = head; head = newNode; }
     }
-    // O(1)
-    void pop_front() {
+    void pop_front() {                  // O(1)
         Node<T>* temp = head;
         head = head->next;
         delete temp;
     }
-    // O(n)
-    void push_back(const T& data) {
+    void push_back(const T& data) {     // O(n)
         Node<T>* prev = nullptr;
         Node<T>* curr = head;
         while (curr != nullptr) {
@@ -34,8 +31,7 @@ struct SLLHead {
         if (prev == nullptr) head = newNode;
         else prev->next = newNode;
     }
-    // O(n)
-    void pop_back() {
+    void pop_back() {                   // O(n)
         Node<T>* prev = nullptr;
         Node<T>* curr = head;
         while (curr->next != nullptr) {
@@ -55,27 +51,23 @@ struct SLLHeadTail {
     Node<T>* head = nullptr;
     Node<T>* tail = nullptr;
 
-    // O(1)
-    void push_front(const T& data) {
+    void push_front(const T& data) {    // O(1)
         Node<T>* newNode = new Node<T>{ data, nullptr };
         if (head == nullptr) head = tail = newNode;
         else { newNode->next = head; head = newNode; }
     }
-    // O(1)
-    void pop_front() {
+    void pop_front() {                  // O(1)
         Node<T>* temp = head;
         head = head->next;
         delete temp;
         if (head == nullptr) tail = nullptr;
     }
-    // O(1)
-    void push_back(const T& data) {
+    void push_back(const T& data) {     // O(1)
         Node<T>* newNode = new Node<T>{ data, nullptr };
         if (head == nullptr) head = tail = newNode;
         else { tail->next = newNode; tail = newNode; }
     }
-    // O(n)
-    void pop_back() {
+    void pop_back() {                   // O(n)
         Node<T>* prev = nullptr;
         Node<T>* curr = head;
         while (curr != tail) {
