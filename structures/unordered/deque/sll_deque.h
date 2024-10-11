@@ -5,7 +5,10 @@
 template<typename T>
 struct sll_deque_head {
     using Node = SingleNode<T>;
-    Node* head = nullptr;
+    Node* head;
+
+    sll_deque_head() { head = nullptr; }
+    ~sll_deque_head() { clear(); }
 
     void push_front(const T& data) {
         Node* newNode = new Node{ data, nullptr };
@@ -51,8 +54,11 @@ struct sll_deque_head {
 template<typename T>
 struct sll_deque_head_tail {
     using Node = SingleNode<T>;
-    Node* head = nullptr;
-    Node* tail = nullptr;
+    Node* head;
+    Node* tail;
+
+    sll_deque_head_tail() { head = tail = nullptr; }
+    ~sll_deque_head_tail() { clear(); }
 
     void push_front(const T& data) {
         Node* newNode = new Node{ data, nullptr };
@@ -95,7 +101,10 @@ struct sll_deque_head_tail {
 template<typename T>
 struct circular_sll_deque_tail {
     using Node = SingleNode<T>;
-    Node* tail = nullptr;
+    Node* tail;
+
+    circular_sll_deque_tail() { tail = nullptr; }
+    ~circular_sll_deque_tail() { clear(); }
 
     void push_front(const T& data) {
         Node* newNode = new Node{ data, nullptr };

@@ -44,11 +44,11 @@ int main()
     circular_dll_deque_head<int> d5;
     array_deque<int> d6(4);
 
-    // testDeque(d1);
-    // testDeque(d2);
-    // testDeque(d3);
-    // testDeque(d4);
-    // testDeque(d5);
+    testDeque(d1);
+    testDeque(d2);
+    testDeque(d3);
+    testDeque(d4);
+    testDeque(d5);
     testDeque(d6);
 
     return 0;

@@ -48,15 +48,17 @@ struct dll_deque_head_tail {
 template<typename T>
 struct circular_dll_deque_head {
     using Node = DoubleNode<T>;
-    Node* head = nullptr;
+    Node* head;
+
+    circular_dll_deque_head() { head = nullptr; }
+    ~circular_dll_deque_head() { clear(); }
 
     void push_front(const T& data) {
         Node* newNode = new Node{ data, nullptr, nullptr };
         if (head == nullptr) {
             newNode->prev = newNode->next = newNode;
             head = newNode;
-        }
-        else {
+        } else {
             Node* tail = head->prev;
             newNode->next = head;
             newNode->prev = tail;
@@ -80,8 +82,7 @@ struct circular_dll_deque_head {
         if (head == nullptr) {
             newNode->prev = newNode->next = newNode;
             head = newNode;
-        }
-        else {
+        } else {
             Node* tail = head->prev;
             newNode->next = head;
             head->prev = newNode;
