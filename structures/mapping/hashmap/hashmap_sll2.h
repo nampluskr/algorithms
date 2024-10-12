@@ -49,8 +49,8 @@ struct HashTable2 {
         bool operator==(const Pair& other) const { return key == other.key; }
     };
     LinkedList<Pair>* table;
-    // OrderedList<Pair>* table;
-    // BSTMap<Pair>* table;
+    // SLLSet<Pair>* table;
+    // BSTSet<Pair>* table;
     int tableSize;
 
     HashTable2(int tableSize) {
