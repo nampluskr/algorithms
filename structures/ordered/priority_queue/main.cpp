@@ -1,41 +1,30 @@
-# pragma once
+#include "sll_priority_queue.h"
+#include <cstdio>
+#include <queue>
 
 template<typename T>
-struct SingleNode {
-    T data;
-    SingleNode* next;
-};
+void testPrioirtyQueue(T& pq) {
+    pq.push(30);
+    pq.push(50);
+    pq.push(20);
+    pq.push(10);
+    pq.push(40);
 
-template<typename T>
-struct sll_priority_queue {
-    using Node = SingleNode<T>;
-    Node* head;
-
-    sll_priority_queue() { head = nullptr; }
-    ~sll_priority_queue() { clear(); }
-
-    void clear() { clearRecur(head); head = nullptr; }
-    void push(const T& data) { head = pushRecur(head, data); }
-
-    void clearRecur(Node* node) {
-        if (node == nullptr) return;
-        clearRecur(node->next);
-        delete node;
+    printf(">> Top = ");
+    while (!pq.empty()) {
+        auto data = pq.top(); pq.pop();
+        printf("%d > ", data);
     }
-    Node* pushRecur(Node* node, const T& data) {
-        if (node == nullptr) return new Node{ data, nullptr };
-        if (node->data == data) return node;    // No duplicates
-        else if (node->data < data) node = new Node{ data, node };
-        else node->next = insertRecur(node->next, data);
-        return node;
-    }
-    // pop_front
-    void pop(const T& data) {
-        Node* temp = head;
-        head = head->next;
-        delete temp;
-    }
+    printf("\n");
+}
 
-    bool empty() { return head == nullptr; }
-    T top() { return head->data; }
-};
+int main()
+{
+    std::priority_queue<int> pq1;
+    sll_priority_queue<int> pq2;
+
+    testPrioirtyQueue(pq1);
+    testPrioirtyQueue(pq2);
+
+    return 0;
+}
