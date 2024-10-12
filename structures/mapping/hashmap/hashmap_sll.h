@@ -1,7 +1,7 @@
 #pragma once
 
 template<typename K, typename V>
-struct LinkedPairList {
+struct PairList {
     struct Node {
         K key;
         V value;
@@ -9,14 +9,14 @@ struct LinkedPairList {
     };
     Node* head;
 
-    LinkedPairList() { head = nullptr; }
-    ~LinkedPairList() { clear(); }
+    PairList() { head = nullptr; }
+    ~PairList() { clear(); }
 
     void clear() {
         while (head != nullptr) {
             // Node* temp = head;
             // head = head->next;
-            // delete = temp;
+            // delete temp;
             Node* next = head->next;
             delete head;
             head = next;
@@ -60,14 +60,14 @@ struct LinkedPairList {
 
 template<typename K, typename V>
 struct HashTable {
-    LinkedPairList<K, V>* table;
-    // OrderedList<K, V>* table;
+    PairList<K, V>* table;
+    // ListMap<K, V>* table;
     // BSTMap<K, V>* table;
     int tableSize;
 
     HashTable(int tableSize) {
         this->tableSize = tableSize;
-        table = new LinkedPairList<K, V>[tableSize];
+        table = new PairList<K, V>[tableSize];
     }
     ~HashTable() { clear(); delete[] table; }
 
