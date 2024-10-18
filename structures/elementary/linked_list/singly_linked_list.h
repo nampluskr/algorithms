@@ -89,7 +89,7 @@ struct singly_linked_list_recur {
     void clear() { clearRecur(head); head = nullptr; }
     T* find(const T& data) {
         Node* res = findRecur(head);
-        return (res == nullptr)? nullptr : &res->data;
+        return (res == nullptr) ? nullptr : &res->data;
     }
     void insert(const T& data) { head = insertRecur(head, data); }
     void remove(const T& data) { head = removeRecur(head, data); }
