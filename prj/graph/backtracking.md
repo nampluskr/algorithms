@@ -32,6 +32,7 @@ void find_all_paths(const vector<vector<int>>& graph, int startNode, int endNode
         }
     }
 }
+```
 
 ### DFS
 
