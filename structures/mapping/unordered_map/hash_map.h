@@ -35,7 +35,7 @@ struct HashMap {
         int index = hashFunc(key);
         V* res = table[index].find(key);
         if (res == nullptr) {
-            table[index].emplace(key, V());
+            table[index].emplace(key, V()); // table[index].emplace(key, {});
             res = table[index].find(key);
         }
         return *res;
