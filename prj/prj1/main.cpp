@@ -70,7 +70,8 @@ void testHashMap(T& map) {
 
     printf("\n");
     map.remove(100);
-    map.emplace(400, 4);
+    // map.emplace(400, 4);
+    map[400] = 4;
 
     printf(">> (%d, %d)\n", 100, map[100]);
     printf(">> (%d, %d)\n", 200, map[200]);
@@ -87,22 +88,22 @@ int main()
     //testList(l1);
     //testList(l2);
 
-    OrderedLinkedList<int> s1;
-    BinarySearchTree<int> s2;
-    BinaryHeap<int> s3;
+    // OrderedLinkedList<int> s1;
+    // BinarySearchTree<int> s2;
+    // BinaryHeap<int> s3;
 
-    testSet(s1);
-    testSet(s2);
-    testSet(s3);
+    // testSet(s1);
+    // testSet(s2);
+    // testSet(s3);
 
-    //OrderedLinkedMap<int, int> h1;
-    //BinarySearchMap<int, int> h2;
-    //HashChaining<int, int> h3;
-    //HashMap<int, int, OrderedLinkedMap<int, int>> h4;
-    //HashMap<int, int, BinarySearchMap<int, int>> h5;
-    //HashMap<int, int, LinkedMap<int, int>> h6;
+    OrderedLinkedMap<int, int> h1;
+    BinarySearchMap<int, int> h2;
+    HashChaining<int, int> h3;
+    HashMap<int, int, OrderedLinkedMap<int, int>> h4;
+    HashMap<int, int, BinarySearchMap<int, int>> h5;
+    HashMap<int, int, LinkedMap<int, int>> h6;
 
-    //testHashMap(h6);
+    testHashMap(h1);
 
     return 0;
 }

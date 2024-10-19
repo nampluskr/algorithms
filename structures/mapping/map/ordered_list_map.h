@@ -32,7 +32,7 @@ struct OrderedListMap {
         Node* prev = nullptr;
         Node* curr = head;
         while (curr != nullptr) {
-            if (curr->key == key) return; // No duplicates
+            if (curr->key == key) { curr->value = value; return; } // Update value
             if (key < curr->key) { prev = curr; curr = curr->next; }
             else break;
         }

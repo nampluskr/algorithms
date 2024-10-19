@@ -44,7 +44,7 @@ private:
     }
     Node* emplaceRecur(Node* node, const K& key, const V& value) {
         if (node == nullptr) return new Node{ key, value, nullptr, nullptr };
-        if (key == node->key) return node;    // No duplicates
+        if (key == node->key) { node->value = value; return node; }    // Update value
         else if (key < node->key) node->left = emplaceRecur(node->left, key, value);
         else node->right = emplaceRecur(node->right, key, value);
         return node;

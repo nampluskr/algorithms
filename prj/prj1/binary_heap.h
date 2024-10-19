@@ -39,7 +39,7 @@ struct BinaryHeap {
     T top() { return heap[0]; }
 
 private:
-#if false:
+#if 0
     // iterative methods
     void siftUp(int index) {
         int curr = index;

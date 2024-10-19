@@ -4,7 +4,7 @@
 
 template<typename T>
 void testMap(T& map) {
-    printf("\n");
+    map.clear();
     map.emplace(100, 1);
     map.emplace(200, 2);
     map.emplace(300, 3);
@@ -17,6 +17,7 @@ void testMap(T& map) {
     printf("\n");
     map.erase(100);
     map.emplace(400, 4);
+    // map[400] = 4;
 
     printf(">> (%d, %d)\n", 100, map[100]);
     printf(">> (%d, %d)\n", 200, map[200]);
