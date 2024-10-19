@@ -14,7 +14,7 @@ void testPQ(T& q) {
 
     printf(">> ");
     while (!q.empty()) {
-        int data = q.front(); q.pop();
+        int data = q.top(); q.pop();
         printf("[%d]->", data);
     }
     printf("\n");
@@ -22,16 +22,18 @@ void testPQ(T& q) {
 
 int main()
 {
-    // ArrayQueue<int> q1;
-    // LinkedQueue<int> q2;
+    OrderedListPQ<int> q1;
+    BinarySearchTreePQ<int> q2;
+    BinaryHeapPQ<int> q3;
 
     printf("\n*** Ordered List Priority Queue:\n");
-    // testPQ(q1);
+    testPQ(q1);
 
     printf("\n*** Binary Search Tree Priority Queue:\n");
-    // testPQ(q2);
+    testPQ(q2);
 
     printf("\n*** Binary Heap Priority Queue:\n");
+    testPQ(q3);
 
     return 0;
 }

@@ -213,12 +213,12 @@ private:
     //     clearRecur(right);
     // }
     // post order (Reference)
-    // void clearRecur(Node* node) {
-    //     if (node == nullptr) return;
-    //     clearRecur(node->left);
-    //     clearRecur(node->right);
-    //     delete node;    // post order
-    // }
+    void clearRecur(Node* node) {
+        if (node == nullptr) return;
+        clearRecur(node->left);
+        clearRecur(node->right);
+        delete node;    // post order
+    }
     Node* findRecur(Node* node, const T& data) const {
         if (node == nullptr) return nullptr;
         if (data == node->data) return node;
