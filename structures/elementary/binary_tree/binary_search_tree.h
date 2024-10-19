@@ -15,19 +15,19 @@ struct binary_search_tree_iter {
     ~binary_search_tree_iter() { clear(); }
 
     // preorder
-    void clear() {
-        if (root == nullptr) return;
+    // void clear() {
+    //     if (root == nullptr) return;
  
-        std::stack<Node*> S;
-        S.push(root);
-        while (!S.empty()) {
-            Node* curr = S.top(); S.pop();
-            if (curr->left != nullptr) S.push(curr->left);
-            if (curr->right != nullptr) S.push(curr->right);
-            delete curr;
-        }
-        root = nullptr;
-    }
+    //     std::stack<Node*> S;
+    //     S.push(root);
+    //     while (!S.empty()) {
+    //         Node* curr = S.top(); S.pop();
+    //         if (curr->left != nullptr) S.push(curr->left);
+    //         if (curr->right != nullptr) S.push(curr->right);
+    //         delete curr;
+    //     }
+    //     root = nullptr;
+    // }
     // level order
     // void clear() {
     //     if (root == nullptr) return;
@@ -42,6 +42,60 @@ struct binary_search_tree_iter {
     //     }
     //     root = nullptr;
     // }
+    // Iterative (Variation-1)
+    // void clear() {
+    //     Node* curr = root;
+    //     Node* prev = nullptr;
+    //     while (curr != nullptr) {
+    //         if (curr->left == nullptr) {
+    //             // 왼쪽 자식이 없으면 현재 노드를 제거하고 오른쪽으로 이동
+    //             Node* right = curr->right;
+    //             delete curr;
+    //             curr = right;
+    //         } else { // 왼쪽 자식이 있는 동안 반복
+    //             // 현재 노드의 왼쪽 자식을 가장 오른쪽 자식의 오른쪽으로 이동
+    //             Node* temp = curr->left;
+    //             while (temp->right != nullptr) temp = temp->right;
+    //             temp->right = curr;
+
+    //             // 왼쪽 서브트리로 이동
+    //             Node* left = curr->left;
+    //             curr->left = nullptr;
+    //             prev = curr;
+    //             curr = left;
+    //         } 
+    //     }
+    //     root = nullptr;
+    // }
+    // Iterative (Variation-2)
+    void clear() {
+        Node* prev = nullptr;
+        Node* curr = root;
+
+        while (curr != nullptr) {
+            if (curr->left == nullptr) {    // 왼쪽 자식이 없으면 오른쪽으로 이동
+                Node* temp = curr;
+                curr = curr->right;
+                delete temp;
+            } else {                        // 왼쪽 자식이 있을 경우 중위 선행자를 찾아야 함
+                prev = curr->left;
+                while (prev->right != nullptr && prev->right != curr) { 
+                    prev = prev->right;
+                }
+                if (prev->right == nullptr) {   // 중위 선행자의 오른쪽을 현재 노드로 연결
+                    prev->right = curr;
+                    curr = curr->left;
+                } else {                        // 중위 선행자의 오른쪽이 현재 노드로 연결된 경우
+                    prev->right = nullptr;
+                    Node* temp = curr;
+                    curr = curr->right;
+                    delete temp;
+                }
+            }
+        }
+        root = nullptr;
+    }
+
     T* find(const T& data) {
         Node* curr = root;
         while (curr != nullptr) {
@@ -141,12 +195,30 @@ struct binary_search_tree_recur {
     void remove(const T& data) { root = removeRecur(root, data); }
 
 private:
-    void clearRecur(Node* node) {
-        if (node == nullptr) return;
-        clearRecur(node->left);
-        clearRecur(node->right);
-        delete node;    // post order
-    }
+    // preorder
+    // void clearRecur(Node* node) {
+    //     if (node == nullptr) return;
+    //     Node* left = node->left;
+    //     Node* right = node->right;
+    //     delete node;        // preorder
+    //     clearRecur(left);
+    //     clearRecur(right);
+    // }
+    // inorder
+    // void clearRecur(Node* node) {
+    //     if (node == nullptr) return;
+    //     clearRecur(node->left);
+    //     Node* right = node->right;
+    //     delete node;        // preorder
+    //     clearRecur(right);
+    // }
+    // post order (Reference)
+    // void clearRecur(Node* node) {
+    //     if (node == nullptr) return;
+    //     clearRecur(node->left);
+    //     clearRecur(node->right);
+    //     delete node;    // post order
+    // }
     Node* findRecur(Node* node, const T& data) const {
         if (node == nullptr) return nullptr;
         if (data == node->data) return node;
