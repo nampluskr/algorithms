@@ -1,4 +1,7 @@
-#include "hash_map.h"
+#include "hash_chaining_map.h"
+#include "hash_chaining_linked_list.h"
+#include "hash_chaining_array_list.h"
+#include "hash_chaining.h"
 #include "../map/ordered_list_map.h"
 #include "../map/binary_search_map.h"
 #include <cstdio>
@@ -41,6 +44,7 @@ void testStrMap(T& map) {
     printf("\n");
     map.erase("aaa");
     map.emplace("ddd", 4);
+    // map["ddd"] = 4;
 
     printf(">> (%s, %d)\n", "aaa", map["aaa"]);
     printf(">> (%s, %d)\n", "bbb", map["bbb"]);
@@ -50,30 +54,41 @@ void testStrMap(T& map) {
 
 int main()
 {
-    if (1) {
-        HashMap<int, int, OrderedListMap<int, int>> m1;
-        HashMap<int, int, BinarySearchMap<int, int>> m2;
-        HashChaining<int, int> m3;
+    if (0) {
+        HashChainingMap<int, int, OrderedListMap<int, int>> m1;
+        HashChainingMap<int, int, BinarySearchMap<int, int>> m2;
+        HashChainingLinkedList<int, int> m3;
+        HashChainingArrayList<int, int> m4;
+        HashChaining<int, int> m5;
 
         printf("\n*** Hash Chaining Using Ordered List Map:\n");
         testIntMap(m1);
         printf("\n*** Hash Chaining Using Binary Search Map:\n");
         testIntMap(m2);
-        printf("\n*** Hash Chaining:\n");
+        printf("\n*** Hash Chaining Using Linked List:\n");
         testIntMap(m3);
+        printf("\n*** Hash Chaining Using Array List:\n");
+        testIntMap(m4);
+        printf("\n*** Hash Chaining:\n");
+        testIntMap(m5);
     }
-
-    if (0) {
-        HashMap<const char*, int, OrderedListMap<const char*, int>> h1;
-        HashMap<const char*, int, BinarySearchMap<const char*, int>> h2;
-        HashChaining<const char*, int> h3;
+    if (1) {
+        HashChainingMap<const char*, int, OrderedListMap<const char*, int>> h1;
+        HashChainingMap<const char*, int, BinarySearchMap<const char*, int>> h2;
+        HashChainingLinkedList<const char*, int> h3;
+        HashChainingArrayList<const char*, int> h4;
+        HashChaining<const char*, int> h5;
 
         printf("\n*** Hash Chaining Using Ordered List Map:\n");
         testStrMap(h1);
         printf("\n*** Hash Chaining Using Binary Search Map:\n");
         testStrMap(h2);
-        printf("\n*** Hash Chaining:\n");
+        printf("\n*** Hash Chaining Using Linked List:\n");
         testStrMap(h3);
+        printf("\n*** Hash Chaining Using Array List:\n");
+        testStrMap(h4);
+        printf("\n*** Hash Chaining:\n");
+        testStrMap(h5);
     }
 
     return 0;

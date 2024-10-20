@@ -39,21 +39,25 @@ void testList(T& lst) {
 int main()
 {
     singly_linked_list_iter<int> l1;
-    singly_linked_list_recur<int> l2;
-    ordered_linked_list_iter<int> l3;
-    ordered_linked_list_recur<int> l4;
+    singly_linked_list_dummy<int> l2;
+    singly_linked_list_recur<int> l3;
+    ordered_linked_list_iter<int> l4;
+    ordered_linked_list_recur<int> l5;
 
     printf("\n*** Singly Linked List (Iterative):\n");
     testList(l1);
 
-    printf("\n*** Singly Linked List (Recursive):\n");
+    printf("\n*** Singly Linked List (Dummy Node):\n");
     testList(l2);
 
-    printf("\n*** Ordered Linked List (Iterative): Descending Order\n");
+    printf("\n*** Singly Linked List (Recursive):\n");
     testList(l3);
 
-    printf("\n*** Ordered Linked List (Recursive): Descending Order\n");
+    printf("\n*** Ordered Linked List (Iterative): Descending Order\n");
     testList(l4);
+
+    printf("\n*** Ordered Linked List (Recursive): Descending Order\n");
+    testList(l5);
 
     return 0;
 }

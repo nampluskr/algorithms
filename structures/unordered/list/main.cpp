@@ -3,6 +3,13 @@
 #include <cstdio>
 
 template<typename T>
+void print(T& lst) {
+    printf(">> ");
+    for (int data : lst) printf("[%d]->", data);
+    printf("\n");
+}
+
+template<typename T>
 void testList(T& lst) {
     lst.clear();
     lst.push_back(10);
@@ -10,21 +17,22 @@ void testList(T& lst) {
     lst.push_back(30);
     lst.push_back(40);
     lst.push_back(50);
-    lst.push_back(60);
-    lst.push_back(70);
-    lst.push_back(80);
-    lst.push_back(90);
+    print(lst);
 
-    printf(">> ");
-    for (auto data : lst) printf("[%d]->", data);
-    printf("\n");
-
-    printf(">> ");
     while (!lst.empty()) {
         auto data = lst.back(); lst.pop_back();
-        printf("[%d]->", data);
+        print(lst);
     }
-    printf("\n");
+
+    lst.push_back(10);
+    lst.push_back(20);
+    lst.push_back(30);
+    lst.push_back(40);
+    lst.push_back(50);
+    print(lst);
+
+    lst.remove(20); print(lst);
+    lst.remove(10); print(lst);
 }
 
 int main()

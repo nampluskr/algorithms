@@ -3,14 +3,14 @@
 
 // Recursive Traversals
 template<typename T>
-void preOrderRecur(const T* node) {
+void preOrderRecur(T* node) {
     if (node == nullptr) return;
     printf("[%d]->", node->data);
     preOrderRecur(node->next);
 }
 
 template<typename T>
-void postOrderRecur(const T* node) {
+void postOrderRecur(T* node) {
     if (node == nullptr) return;
     postOrderRecur(node->next);
     printf("[%d]->", node->data);
@@ -19,7 +19,7 @@ void postOrderRecur(const T* node) {
 
 // Iterative Traversals
 template<typename T>
-void preOrder(const T* node) {
+void preOrder(T* node) {
     T* curr = node;
     while (curr != nullptr) {
         printf("[%d]->", curr->data);

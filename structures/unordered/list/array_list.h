@@ -24,15 +24,15 @@ struct ArrayList {
     }
     void pop_back() { arrSize--; }
 
-    T* find(const T& data) {
-        for (int i = 0; i < arrSize; ++i)
-            if (arr[i] == data) return &arr[i];
-        return nullptr;
+    int find(const T& data) {
+        for (int i = 0; i < arrSize; i++)
+            if (arr[i] == data) return i;
+        return -1;
     }
     void remove(const T& data) {
-        T* target = find(data);
-        if (target != nullptr) {
-            for (int i = *target - arr; i < arrSize - 1; ++i)
+        int index = find(data);
+        if (index != -1) {
+            for (int i = index; i < arrSize - 1; ++i)
                 arr[i] = arr[i + 1];
             arrSize--;
         }
@@ -49,7 +49,7 @@ struct ArrayList {
 private:
     void resize(int capacity) {
         if (capacity < arrSize) return;
-        T* temp = new int[capacity];
+        T* temp = new T[capacity];
         for (int i = 0; i < arrSize; ++i) temp[i] = arr[i];
         delete[] arr;
         arr = temp;

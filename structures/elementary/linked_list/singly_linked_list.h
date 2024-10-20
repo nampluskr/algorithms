@@ -145,3 +145,55 @@ private:
         return node;
     }
 };
+
+template<typename T>
+struct singly_linked_list_dummy {
+    struct Node {
+        T data;
+        Node* next;
+    };
+    Node* head;
+
+    singly_linked_list_dummy() { head = new Node{ {}, nullptr }; }
+    ~singly_linked_list_dummy() { clear(); }
+
+    void clear() {
+        Node* curr = head->next;
+        while (curr != nullptr) {
+            Node* temp = curr;
+            curr = curr->next;
+            delete temp;
+        }
+        head->next = nullptr;
+    }
+    T* find(const T& data) {
+        Node* curr = head->next;
+        while (curr != nullptr) {
+            if (curr->data == data) return &curr->data;
+            curr = curr->next;
+        }
+        return nullptr;
+    }
+    void insert(const T& data) {
+        Node* prev = head;
+        Node* curr = head->next;
+        while (curr != nullptr) {
+            if (curr->data == data) return; // No duplicates
+            prev = curr;
+            curr = curr->next;
+        }
+        prev->next = new Node{ data, curr };
+    }
+    void remove(const T& data) {
+        Node* prev = head;
+        Node* curr = head->next;
+        while (curr != nullptr) {
+            if (curr->data == data) break;
+            prev = curr;
+            curr = curr->next;
+        }
+        if (curr == nullptr) return; // No data
+        prev->next = curr->next;
+        delete curr;
+    }
+};
