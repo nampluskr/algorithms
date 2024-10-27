@@ -28,11 +28,13 @@ void dfs1(int k, int sum) {
     if (sum == target) { print(sol); return; }
     if (k == arrSize) return;
 
-    sol.push_back(arr[k]);
-    dfs1(k + 1, sum + arr[k]);
-    sol.pop_back();
-
-    dfs1(k + 1, sum);
+    if (sum + arr[k] <= target) {   // pruning
+        sol.push_back(arr[k]);
+        dfs1(k + 1, sum + arr[k]);
+        sol.pop_back();
+    }
+    if (sum <= target)      // pruning
+        dfs1(k + 1, sum);
 }
 
 void dfs2(int k, int sum) {
@@ -40,9 +42,11 @@ void dfs2(int k, int sum) {
     if (k == arrSize) return;
 
     for (int i = k; i < arrSize; i++) {
-        sol.push_back(arr[i]);
-        dfs2(i + 1, sum + arr[i]);
-        sol.pop_back();
+        if (sum + arr[i] <= target) {   // pruning
+            sol.push_back(arr[i]);
+            dfs2(i + 1, sum + arr[i]);
+            sol.pop_back();
+        }
     }
 }
 
@@ -56,11 +60,13 @@ void bfs1(int k, int sum) {
         if (curr.sum == target) { print(curr.sol); continue; }
         if (curr.k == arrSize) continue;
 
-        curr.sol.push_back(arr[curr.k]);
-        Q.push({ curr.k + 1, curr.sum + arr[curr.k], curr.sol });
-        curr.sol.pop_back();
-
-        Q.push({ curr.k + 1, curr.sum, curr.sol });
+        if (curr.sum + arr[curr.k <= target]) { // pruning
+            curr.sol.push_back(arr[curr.k]);
+            Q.push({ curr.k + 1, curr.sum + arr[curr.k], curr.sol });
+            curr.sol.pop_back();
+        }
+        if (curr.sum <= target)     // pruning
+            Q.push({ curr.k + 1, curr.sum, curr.sol });
     }
 }
 
@@ -74,28 +80,14 @@ void bfs2(int k, int sum) {
         if (curr.sum == target) { print(curr.sol); continue; }
         if (curr.k == arrSize) continue;
 
-        for (int i = curr.k; i < arrSize; i++) {
-            curr.sol.push_back(arr[i]);
-            Q.push({ i + 1, curr.sum + arr[i], curr.sol });
-            curr.sol.pop_back();
-        }
+        for (int i = curr.k; i < arrSize; i++)
+            if (curr.sum + arr[i] <= target) {  // pruning
+                curr.sol.push_back(arr[i]);
+                Q.push({ i + 1, curr.sum + arr[i], curr.sol });
+                curr.sol.pop_back();
+            }
     }
 }
-
-*** DFS1 ***
-[ 1, 2, 3, 6, ]
-[ 1, 2, 4, 5, ]
-[ 1, 2, 9, ]
-[ 1, 3, 8, ]
-[ 1, 4, 7, ]
-[ 1, 5, 6, ]
-[ 2, 3, 7, ]
-[ 2, 4, 6, ]
-[ 2, 10, ]
-[ 3, 4, 5, ]
-[ 3, 9, ]
-[ 4, 8, ]
-[ 5, 7, ]
 
 
 int main()

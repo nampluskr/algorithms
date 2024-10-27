@@ -49,7 +49,7 @@ bool dfs_preorder(int curr, int target) {
             if (dfs_preorder(next, target)) return true;
         }
     return false;
-} // >> [0]->[1]->[3]->[7]->[8]->[2]->[4]->[5]->
+} // >> [0]->[1]->[3]->[7]->[8]->
 
 // visited[start] = true; path.push_back(start);
 bool dfs_postorder(int curr, int target) {
@@ -63,7 +63,7 @@ bool dfs_postorder(int curr, int target) {
             if (dfs_postorder(next, target)) return true;
         }
     return false;
-} // >> [0]->[1]->[3]->[7]->[8]->[2]->[4]->[5]->[6]->[9]->
+} // >> [0]->[1]->[3]->[7]->[8]->
 
 bool bfs_preorder(int start, int target) {
     std::queue<int> Q;
@@ -84,7 +84,7 @@ bool bfs_preorder(int start, int target) {
             }
     }
     return false;
-} // >> [0]->[1]->[2]->[3]->[4]->[5]->[6]->[7]->[8]->[9]->
+} // >> [0]->[1]->[2]->[3]->[4]->[5]->[6]->[7]->[8]->
 
 // visited[start] = true; path.push_back(start);
 bool bfs_postorder(int start, int target) {
@@ -105,7 +105,7 @@ bool bfs_postorder(int start, int target) {
             }
     }
     return false;
-} // >> [0]->[1]->[2]->[3]->[4]->[5]->[6]->[7]->[8]->[9]->
+} // >> [0]->[1]->[2]->[3]->[4]->[5]->[6]->[7]->[8]->
 
 bool stack_preorder(int start, int target) {
     std::stack<int> S;
@@ -126,7 +126,7 @@ bool stack_preorder(int start, int target) {
             }
     }
     return true;
-} // >> [0]->[1]->[2]->[3]->[4]->[5]->[6]->[7]->[8]->[9]->
+} // >> [0]->[1]->[2]->[3]->[4]->[5]->[6]->[7]->[8]->
 
 // visited[start] = true; path.push_back(start);
 bool stack_postorder(int start, int target) {
@@ -147,7 +147,7 @@ bool stack_postorder(int start, int target) {
             }
     }
     return false;
-} // >> [0]->[1]->[2]->[3]->[4]->[5]->[6]->[7]->[8]->[9]->
+} // >> [0]->[1]->[2]->[3]->[4]->[5]->[6]->[7]->[8]->
 
 
 int main()

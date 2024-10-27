@@ -47,7 +47,7 @@ void dfs_preorder(int curr) {
             parent[next.to] = curr;
             dfs_preorder(next.to);
         }
-}
+} // >> [0]->[1]->[2]->[4]->[3]->[5]->
 
 // visited[start] = true; path.push_back(start);
 void dfs_postorder(int curr) {
@@ -59,7 +59,7 @@ void dfs_postorder(int curr) {
             parent[next.to] = curr;
             dfs_postorder(next.to);
         }
-}
+} // >> [0]->[1]->[2]->[4]->[3]->[5]->
 
 void bfs_preorder(int start) {
     std::queue<Edge> Q;
@@ -78,7 +78,7 @@ void bfs_preorder(int start) {
                 Q.push(next);
             }
     }
-}
+} // >> [0]->[1]->[2]->[3]->[4]->[5]->
 
 // visited[start] = true; path.push_back(start);
 void bfs_postorder(int start) {
@@ -97,7 +97,7 @@ void bfs_postorder(int start) {
                 Q.push(next);
             }
     }
-}
+} // >> [0]->[1]->[2]->[3]->[4]->[5]->
 
 void stack_preorder(int start) {
     std::stack<Edge> S;

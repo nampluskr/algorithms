@@ -53,7 +53,7 @@ bool dfs_preorder(const Position& curr, const Position& target) {
     return false;
 }
 
-// visit the start node at first
+// visited[start.row][start.col] = cnt++;
 bool dfs_postorder(const Position& curr, const Position& target) {
     for (int k = 0; k < 4; k++) {
         Position next = { curr.row + dr[k], curr.col + dc[k] };
@@ -91,7 +91,7 @@ bool bfs_preorder(const Position& start, const Position& target) {
     return false;
 }
 
-// visit the start node at first
+// visited[start.row][start.col] = cnt++;
 bool bfs_postorder(const Position& start, const Position& target) {
     std::queue<Position> Q;
     Q.push({ start.row, start.col });
