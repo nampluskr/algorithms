@@ -3,8 +3,8 @@
 struct FenwickTree {
     int *tree, *arr, n;
 
-    FenwickTree(int max_size) { 
-        n = max_size; 
+    FenwickTree(int max_size) {
+        n = max_size;
         tree = new int[n + 1];
         arr = new int[n];
     }
@@ -29,6 +29,13 @@ struct FenwickTree {
             idx += idx & -idx;  // 최하위 bit 더함
         }
     }
+    int query(int left, int right) {
+        int res = prefixSum(right);
+        if (left > 0) res -= prefixSum(left - 1);
+        return res;
+    }
+
+private:
     int prefixSum(int idx) {
         idx++;
         int res = 0;
@@ -36,11 +43,6 @@ struct FenwickTree {
             res += tree[idx];
             idx &= idx - 1;     // 최하위 bit 제거
         }
-        return res;
-    }
-    int query(int left, int right) {
-        int res = prefixSum(right);
-        if (left > 0) res -= prefixSum(left - 1);
         return res;
     }
 };

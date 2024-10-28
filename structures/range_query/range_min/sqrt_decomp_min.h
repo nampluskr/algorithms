@@ -45,9 +45,12 @@ struct SqrtDecompMin {
             for (int i = left; i <= right; i++) res = min(res, arr[i]);
             return res;
         }
-        for (int i = left; i < (leftBlock + 1) * blockSize; i++) res = min(res, arr[i]);
-        for (int i = leftBlock + 1; i < rightBlock; i++) res = min(res, blocks[i]);
-        for (int i = rightBlock * blockSize; i <= right; i++) res = min(res, arr[i]);
+        for (int i = left; i < (leftBlock + 1) * blockSize; i++)
+            res = min(res, arr[i]);
+        for (int i = leftBlock + 1; i < rightBlock; i++)
+            res = min(res, blocks[i]);
+        for (int i = rightBlock * blockSize; i <= right; i++)
+            res = min(res, arr[i]);
         return res;
     }
 };
