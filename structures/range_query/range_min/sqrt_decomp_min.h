@@ -1,27 +1,30 @@
 #pragma once
 #include <cmath>
 
+inline int min(int a, int b) { return (a < b) ? a : b; }
+
 struct SqrtDecompMin {
     int *arr, n;
-    int *blocks, blockSize, blockCnt;
+    int *blockMin, blockSize, blockCnt;
 
     SqrtDecompMin(int maxSize) {
         n = maxSize;
-        arr = new int[n];
         blockSize = sqrt(n);
         blockCnt = (n + blockSize - 1) / blockSize; // ceil
-        blocks = new int[blockCnt];
-        // initialize
-        for (int i = 0; i < n; i++) arr[i] = 0;
-        for (int i = 0; i < blockCnt; i++) blocks[i] = 1e6; // INF
+        arr = new int[n];
+        blockMin = new int[blockCnt];
+        clear();
     }
-    ~SqrtDecompMin() { delete[] arr; delete[] blocks; }
+    ~SqrtDecompMin() { delete[] arr; delete[] blockMin; }
 
-    int min(int a, int b) { return (a < b) ? a : b; }
+    void clear() {
+        for (int i = 0; i < n; i++) arr[i] = 0;
+        for (int i = 0; i < blockCnt; i++) blockMin[i] = 1e6; // INF
+    }
     void build(int arr[]) {
         for (int i = 0; i < n; i++) {
             this->arr[i] = arr[i];
-            blocks[i / blockSize] = min(blocks[i / blockSize], arr[i]);
+            blockMin[i / blockSize] = min(blockMin[i / blockSize], arr[i]);
         }
     }
     void update(int idx, int value) {
@@ -32,9 +35,9 @@ struct SqrtDecompMin {
         int left = blockIdx * blockSize;
         int right = min((blockIdx + 1) * blockSize - 1, n - 1);
 
-        blocks[blockIdx] = 1e6;  // INF
+        blockMin[blockIdx] = 1e6;  // INF
         for (int i = left; i <= right; i++)
-            blocks[blockIdx] = min(blocks[blockIdx], arr[i]);
+            blockMin[blockIdx] = min(blockMin[blockIdx], arr[i]);
     }
     int query(int left, int right) {
         int res = 1e6;
@@ -48,7 +51,7 @@ struct SqrtDecompMin {
         for (int i = left; i < (leftBlock + 1) * blockSize; i++)
             res = min(res, arr[i]);
         for (int i = leftBlock + 1; i < rightBlock; i++)
-            res = min(res, blocks[i]);
+            res = min(res, blockMin[i]);
         for (int i = rightBlock * blockSize; i <= right; i++)
             res = min(res, arr[i]);
         return res;
