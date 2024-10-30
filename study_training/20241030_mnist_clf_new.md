@@ -119,10 +119,10 @@ optimizer = optim.Adam(model.parameters(), lr=1e-3)
 # ###########################################################################
 
 ## Training
-n_epochs = 2
+n_epochs = 10
 
+print("Training: ")
 for epoch in range(1, n_epochs + 1):
-
     model.train()
     res = {"loss": 0, "acc": 0}
     with tqdm(train_loader, file=sys.stdout, leave=False, ascii=True) as pbar:
@@ -137,9 +137,9 @@ for epoch in range(1, n_epochs + 1):
             res["loss"] += loss.item()
             res["acc"] += accuracy(pred, y).item()
             
-            train_desc = f"loss={res['loss']/(i+1):.3f}, acc={res['acc']/(i+1):.3f}"
-            pbar.set_description(f"Epoch[{epoch}/{n_epochs}] " + train_desc)
-    print(f"Epoch[{epoch}/{n_epochs}] " + train_desc)
+            desc = f"loss={res['loss']/(i+1):.3f}, acc={res['acc']/(i+1):.3f}"
+            pbar.set_description(f"Epoch[{epoch}/{n_epochs}] " + desc)
+    print(f"Epoch[{epoch}/{n_epochs}] " + desc)
     
 
 ## Evaluation
@@ -153,8 +153,8 @@ with torch.no_grad():
             res["loss"] += loss_fn(pred, y).item()
             res["acc"] += accuracy(pred, y).item()
             
-            test_desc = f"loss={res['loss']/(i+1):.3f}, acc={res['acc']/(i+1):.3f}"
-            pbar.set_description("Evaluation: " + test_desc)
+            desc = f"loss={res['loss']/(i+1):.3f}, acc={res['acc']/(i+1):.3f}"
+            pbar.set_description("Evaluation: " + desc)
        
-print("Evaluation: " + test_desc)
+print("Evaluation: " + desc)
 ```
