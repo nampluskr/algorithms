@@ -1,6 +1,6 @@
 ### mnist_clf10.py: trainer 새로 작성할 것
 
-```cpp
+```python
 import os
 import numpy as np
 import gzip
