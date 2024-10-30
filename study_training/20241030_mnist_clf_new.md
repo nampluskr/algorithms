@@ -115,23 +115,11 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 model = CNN(n_classes=10).to(device)
 loss_fn = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=1e-3)
-metric_fn = accuracy
 
 # ###########################################################################
 
 ## Training
 n_epochs = 2
-
-def train_step(x, y):
-    x, y = x.to(device), y.to(device)
-    optimizer.zero_grad()
-    pred = model(x)
-    loss = loss_fn(pred, y)
-    loss.backward()
-    optimizer.step()
-
-    res = {"loss": loss.item(), "acc": metric_fn(pred, y).item() }
-    return res
 
 for epoch in range(1, n_epochs + 1):
 
@@ -139,35 +127,34 @@ for epoch in range(1, n_epochs + 1):
     res = {"loss": 0, "acc": 0}
     with tqdm(train_loader, file=sys.stdout, leave=False, ascii=True) as pbar:
         for i, (x, y) in enumerate(pbar):
-            res_setp = train_step(x, y)
-            res["loss"] += res_setp["loss"]
-            res["acc"] += res_setp["acc"]
+            x, y = x.to(device), y.to(device)
+            optimizer.zero_grad()
+            pred = model(x)
+            loss = loss_fn(pred, y)
+            loss.backward()
+            optimizer.step()
+
+            res["loss"] += loss.item()
+            res["acc"] += accuracy(pred, y).item()
             
-            train_desc = f"loss={res['loss'] / (i + 1):.3f}, acc={res['acc'] / (i + 1):.3f}"
+            train_desc = f"loss={res['loss']/(i+1):.3f}, acc={res['acc']/(i+1):.3f}"
             pbar.set_description(f"Epoch[{epoch}/{n_epochs}] " + train_desc)
     print(f"Epoch[{epoch}/{n_epochs}] " + train_desc)
     
 
 ## Evaluation
-def test_step(x, y):
-    x, y = x.to(device), y.to(device)
-    pred = model(x)
-    res = {"loss": loss_fn(pred, y).item(), "acc": metric_fn(pred, y).item()}
-    return res
-
 model.eval()
-corret = 0
-total = 0
 with torch.no_grad():
     res = {"loss": 0, "acc": 0}
     with tqdm(test_loader, file=sys.stdout, leave=False, ascii=True) as pbar:
         for i, (x, y) in enumerate(pbar):
-            res_setp = test_step(x, y)
-            res["loss"] += res_setp["loss"]
-            res["acc"] += res_setp["acc"]
+            x, y = x.to(device), y.to(device)
+            pred = model(x)
+            res["loss"] += loss_fn(pred, y).item()
+            res["acc"] += accuracy(pred, y).item()
             
             test_desc = f"loss={res['loss']/(i+1):.3f}, acc={res['acc']/(i+1):.3f}"
-            pbar.set_description(f"Epoch[{epoch}/{n_epochs}] " + test_desc)
+            pbar.set_description("Evaluation: " + test_desc)
        
-print(f"Epoch[{epoch}/{n_epochs}] " + test_desc)
+print("Evaluation: " + test_desc)
 ```
