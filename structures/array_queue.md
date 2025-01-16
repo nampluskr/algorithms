@@ -50,6 +50,7 @@ struct Queue {
     }
     void pop() { head++; }
     T front() { return arr[head]; }
+    bool empty() { return tail - head + 1 == 0; }
     int size() { return tail - head + 1; }
 
     // iterators
