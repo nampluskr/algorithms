@@ -19,10 +19,11 @@ struct Array {
         tail = other.tail;
         capacity = other.capacity;
         arr = new T[capacity];
-        for (int i = 0; i <= other.tail; i++) arr[i] = other.arr[i];
+        for (int i = 0; i <= tail; i++) arr[i] = other.arr[i];
     }
     Array& operator=(const Array& other) {              // 복사 대입 연산자
         if (this != &other) {
+            delete[] arr;
             tail = other.tail;
             capacity = other.capacity;
             arr = new T[capacity];
@@ -119,6 +120,7 @@ int main()
         intMap.emplace(2000, 2);
         intMap.emplace(3000, 3);
 
+        printf("\n");
         printf("%d, %d\n", 1000, intMap[1000]);
         printf("%d, %d\n", 2000, intMap[2000]);
         printf("%d, %d\n", 3000, intMap[3000]);
@@ -136,6 +138,7 @@ int main()
         listMap[1000].push_back(4);
         listMap[1000].push_back(5);
 
+        printf("\n");
         for (int x : listMap[1000]) printf("%d ", x);
         printf("\n");
 
@@ -145,6 +148,7 @@ int main()
         listMap[2000].push_back(40);
         listMap[2000].push_back(50);
 
+        printf("\n");
         for (int x : listMap[2000]) printf("%d ", x);
         printf("\n");
 
@@ -155,6 +159,7 @@ int main()
         dataCnt = 0;
         int key;
 
+        printf("\n");
         key = 100; printf("%d %d\n", key, getIndex(key));
         key = 200; printf("%d %d\n", key, getIndex(key));
         key = 300; printf("%d %d\n", key, getIndex(key));
